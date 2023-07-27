@@ -1,27 +1,29 @@
 package Gestores;
+import POJO.Producto;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Time;
 
-import java.sql.*;
 import POJO.Sucursal;
 
-public class GestorSucursal {
-	
-	public Sucursal getSucursalById(int i) throws Exception{
-		Sucursal s = null;
+public class GestorProducto {
+	public Producto getProductoById(int i) throws Exception{
+		Producto p = null;
         try {
             // below two lines are used for connectivity.
         	Connection connection = ConexionBDD.getConnection();
             Statement statement;
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                "select * from sucursal where sucursal_id ="+i+"");
+                "select * from producto where producto_id ="+i+"");
        
             while (resultSet.next()) {
-               s = new Sucursal(resultSet.getInt("sucursal_id"),
+               p = new Producto(resultSet.getInt("producto_id"),
             		   resultSet.getString("nombre"),
-            		   resultSet.getTime("horarioApertura").toLocalTime(),
-            		   resultSet.getTime("horarioCierre").toLocalTime(),
-            		   resultSet.getBoolean("operativa")
-            		   );
+            		   resultSet.getString("descripcion"),
+            		   resultSet.getFloat("Peso"));
             }
             
             resultSet.close();
@@ -32,21 +34,19 @@ public class GestorSucursal {
             System.out.println(exception);
         }
         
-        return s;
+        return p;
         
 	}
-	
-	public static void createSucursal(Sucursal s) throws Exception{
+public static void createProducto(Producto p) throws Exception{
 		
 		try {
             // below two lines are used for connectivity.
 			Connection connection = ConexionBDD.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into sucursal(id, nombre, horarioApertura, horarioCierre, operativa) values(?, ?, ?, ?, ?)");
-			preparedStatement.setInt(1, s.getId());
-			preparedStatement.setString(2, s.getNombre());
-			preparedStatement.setTime(3, Time.valueOf(s.getHorarioApertura()));
-			preparedStatement.setTime(4, Time.valueOf(s.getHorarioCierre()));
-			preparedStatement.setBoolean(5, s.isOperativa());
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into producto(id_producto, nombre, descripcion, peso) values(?, ?, ?, ?)");
+			preparedStatement.setInt(1, p.getProducto_id());
+			preparedStatement.setString(2, p.getNombre());
+			preparedStatement.setString(3, p.getDescripcion());
+			preparedStatement.setFloat(4, p.getPeso());
             
 			preparedStatement.executeUpdate();
 			
@@ -58,12 +58,12 @@ public class GestorSucursal {
         }
 		
 	}
-public static void deleteSucursal(int id) throws Exception{
+public static void deleteProducto(int id) throws Exception{
 	
 	try {
         // below two lines are used for connectivity.
 		Connection connection = ConexionBDD.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("Delete from Sucursal where id_sucursal = "+id);
+        PreparedStatement preparedStatement = connection.prepareStatement("Delete from Producto where id_producto = "+id);
 		preparedStatement.executeUpdate();
 		
         preparedStatement.close();
