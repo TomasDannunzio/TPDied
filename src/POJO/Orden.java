@@ -4,15 +4,17 @@ import java.time.LocalTime;
 import java.util.HashMap;
 
 public class Orden {
+	private int orden_id;
 	private LocalDate FechaOrden;
-	private int Destino;
+	private Sucursal Destino;
 	private LocalTime TiempoMax;
 	private HashMap<Producto,Integer> listaProductos;
 	
 	//Constructores
 	
-	public Orden(LocalDate fechaOrden, int destino, LocalTime tiempoMax, HashMap<Producto, Integer> listaProductos) {
+	public Orden(int orden, LocalDate fechaOrden, Sucursal destino, LocalTime tiempoMax, HashMap<Producto, Integer> listaProductos) {
 		super();
+		orden_id = orden;
 		FechaOrden = fechaOrden;
 		Destino = destino;
 		TiempoMax = tiempoMax;
@@ -26,10 +28,10 @@ public class Orden {
 	public void setFechaOrden(LocalDate fechaOrden) {
 		FechaOrden = fechaOrden;
 	}
-	public int getDestino() {
+	public Sucursal getDestino() {
 		return Destino;
 	}
-	public void setDestino(int destino) {
+	public void setDestino(Sucursal destino) {
 		Destino = destino;
 	}
 	public LocalTime getTiempoMax() {
