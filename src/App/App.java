@@ -1,25 +1,32 @@
 package App;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import Gestores.GestorSucursal;
+import POJO.Sucursal;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("unused")
 public class App extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -30,6 +37,16 @@ public class App extends JFrame {
 				}
 			}
 		});
+		
+		GestorSucursal gestor = GestorSucursal.getInstance();
+		
+		//gestor.createSucursal(1,"Centro",LocalTime.parse("07:00:00"),
+		//		LocalTime.parse("15:00:00"),false);
+		
+		//gestor.deleteSucursal(1);
+		
+		//System.out.println(gestor.getSucursal(1,"Centro"));
+		
 	}
 
 	/**

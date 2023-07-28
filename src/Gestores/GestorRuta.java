@@ -1,5 +1,7 @@
 package Gestores;
 import POJO.Ruta;
+import POJO.Sucursal;
+
 import java.sql.*;
 public class GestorRuta {
 	public Ruta getRutaById(int i) throws Exception{
@@ -11,16 +13,23 @@ public class GestorRuta {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
                 "select * from ruta where ruta_id ="+i+"");
-       
-            /*while (resultSet.next()) {
+            
+            GestorSucursal gestorS = GestorSucursal.getInstance();
+            
+            while (resultSet.next()) {
+            	
+            	Sucursal origen = gestorS.getSucursalById(resultSet.getInt("origen_id"));
+            	
+            	Sucursal destino = gestorS.getSucursalById(resultSet.getInt("destino_id"));
+            	
                r = new Ruta(resultSet.getInt("ruta_id"),
-            		   resultSet.getInt("origen"),
-            		   resultSet.getInt("destino"),
+            		   origen,
+            		   destino,
             		   resultSet.getTime("tiempoTransito").toLocalTime(),
 					   resultSet.getFloat("capacidad"),
             		   resultSet.getBoolean("operativa")
             		   );
-            }*/
+            }
             
             resultSet.close();
             statement.close();
@@ -42,8 +51,8 @@ public class GestorRuta {
 			Connection connection = ConexionBDD.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into ruta(id, origen, destino, tiempoTransito, capacidad ,operativa) values(?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, r.getId());
-			//preparedStatement.setSucursal(2, r.getOrigen());
-			//preparedStatement.setSucursal(3, r.getDestino());
+			preparedStatement.setInt(2, r.getOrigen().getId());
+			preparedStatement.setInt(3, r.getOrigen().getId());
 			preparedStatement.setTime(4, Time.valueOf(r.getTiempoTransito()));
 			preparedStatement.setFloat(5, r.getCapacidad());
 			preparedStatement.setBoolean(6, r.isOperativa());

@@ -70,7 +70,7 @@ public class GestorSucursal {
 			System.out.println("Entré");
             // below two lines are used for connectivity.
 			Connection connection = ConexionBDD.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into sucursal(id, nombre, horarioApertura, horarioCierre, operativa) values(?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into sucursal(sucursal_id, nombre, horarioApertura, horarioCierre, operativa) values(?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, s.getId());
 			preparedStatement.setString(2, s.getNombre());
 			preparedStatement.setTime(3, Time.valueOf(s.getHorarioApertura()));
@@ -93,7 +93,7 @@ public static void deleteSucursal(int id) throws Exception{
 	try {
         // below two lines are used for connectivity.
 		Connection connection = ConexionBDD.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("Delete from Sucursal where id_sucursal = "+id);
+        PreparedStatement preparedStatement = connection.prepareStatement("Delete from Sucursal where sucursal_id = "+id);
 		preparedStatement.executeUpdate();
 		
         preparedStatement.close();
@@ -105,7 +105,7 @@ public static void deleteSucursal(int id) throws Exception{
 	
 }
 
-public Sucursal getSucursalByNombre(String nombre) throws Exception{
+public Sucursal getSucursalByNombre(String nom) throws Exception{
 	Sucursal s = null;
     try {
         // below two lines are used for connectivity.
@@ -113,7 +113,7 @@ public Sucursal getSucursalByNombre(String nombre) throws Exception{
         Statement statement;
         statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(
-            "select * from sucursal where nombre ="+nombre+"");
+            "select * from sucursal where nombre = \"" + nom+"\"");
    
         while (resultSet.next()) {
            s = new Sucursal(resultSet.getInt("sucursal_id"),
@@ -136,37 +136,57 @@ public Sucursal getSucursalByNombre(String nombre) throws Exception{
     
 }
 
-public Sucursal getSucursal(int i, String nombre) throws Exception{
-	Sucursal s = null;
-    try {
+public Sucursal getSucursal(int i, String nom) throws Exception{
+		Sucursal s = null;
+	    try {
+	        // below two lines are used for connectivity.
+	    	Connection connection = ConexionBDD.getConnection();
+	        Statement statement;
+	        statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery(
+	            "select * from sucursal where sucursal_id = " + i + " AND nombre = \"" + nom+"\"");
+	   
+	        while (resultSet.next()) {
+	           s = new Sucursal(resultSet.getInt("sucursal_id"),
+	        		   resultSet.getString("nombre"),
+	        		   resultSet.getTime("horarioApertura").toLocalTime(),
+	        		   resultSet.getTime("horarioCierre").toLocalTime(),
+	        		   resultSet.getBoolean("operativa")
+	        		   );
+	        }
+	        
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    }
+	    catch (Exception exception) {
+	        System.out.println(exception);
+	    }
+	    
+	    return s;
+	    
+	}
+
+public void updateSucursal(int id, String nombre, LocalTime horarioApertura,
+		LocalTime horarioCierre, boolean operativa) {
+	
+	try {
         // below two lines are used for connectivity.
-    	Connection connection = ConexionBDD.getConnection();
-        Statement statement;
-        statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(
-            "select * from sucursal where sucursal_id ="+i+" and nombre="+nombre+"");
-   
-        while (resultSet.next()) {
-           s = new Sucursal(resultSet.getInt("sucursal_id"),
-        		   resultSet.getString("nombre"),
-        		   resultSet.getTime("horarioApertura").toLocalTime(),
-        		   resultSet.getTime("horarioCierre").toLocalTime(),
-        		   resultSet.getBoolean("operativa")
-        		   );
-        }
-        
-        resultSet.close();
-        statement.close();
+		Connection connection = ConexionBDD.getConnection();
+        PreparedStatement preparedStatement = connection.
+        		prepareStatement("UPDATE FROM SUCURSAL WHERE SUCURSAL_ID="+id+"");
+		
+        preparedStatement.executeUpdate();
+		
+        preparedStatement.close();
         connection.close();
     }
     catch (Exception exception) {
         System.out.println(exception);
     }
-    
-    return s;
-    
+	
+	
 }
-
 
 
 }
