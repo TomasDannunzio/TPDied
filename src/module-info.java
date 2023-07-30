@@ -8,5 +8,5 @@
 module TPDied {
 	requires java.desktop;
 	requires java.sql;
-	requires java.Gestores.FramePrincipal;
+	//requires java.Gestores.FramePrincipal;
 }

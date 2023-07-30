@@ -2,6 +2,7 @@ package Gestores;
 
 import java.sql.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import POJO.Sucursal;
 
@@ -185,7 +186,41 @@ public void updateSucursal(int id, String nombre, LocalTime horarioApertura,
         System.out.println(exception);
     }
 	
-	
+}
+
+public ArrayList<Sucursal> getAllSucursal() throws Exception{
+	Sucursal s = null;
+	ArrayList<Sucursal> lista = new ArrayList<Sucursal>();
+    try {
+        // below two lines are used for connectivity.
+    	Connection connection = ConexionBDD.getConnection();
+        Statement statement;
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+            "select * from sucursal");
+        
+        while (resultSet.next()) {
+           s = new Sucursal(resultSet.getInt("sucursal_id"),
+        		   resultSet.getString("nombre"),
+        		   resultSet.getTime("horarioApertura").toLocalTime(),
+        		   resultSet.getTime("horarioCierre").toLocalTime(),
+        		   resultSet.getBoolean("operativa")
+        		   );
+           
+           lista.add(s);
+           
+        }
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+    
+    return lista;
+    
 }
 
 
