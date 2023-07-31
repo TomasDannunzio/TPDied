@@ -75,6 +75,7 @@ public class FrameSucursal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public FrameSucursal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
@@ -248,6 +249,24 @@ public class FrameSucursal extends JFrame {
 		gbc_btnNewButton_4.gridx = 4;
 		gbc_btnNewButton_4.gridy = 5;
 		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FrameSucursal.this.setVisible(false);
+				
+				CrearSucursal crearSucursal= new CrearSucursal();
+				
+				try {
+					crearSucursal.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				
+				FrameSucursal.this.dispose();
+				
+			}
+		});
+		
 		
 		btnNewButton_3 = new JButton("Modificar");
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
@@ -258,6 +277,26 @@ public class FrameSucursal extends JFrame {
 		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
 		
 		btnNewButton_2 = new JButton("Eliminar");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+					int filaSeleccionada = table.getSelectedRow();
+					
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					
+					try {
+						GestorSucursal.getInstance().deleteSucursal((int) model.getValueAt(filaSeleccionada, 0));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					model.removeRow(filaSeleccionada);
+					
+					model.fireTableDataChanged();
+					
+				}
+		});
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);

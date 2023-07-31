@@ -89,7 +89,7 @@ public class GestorSucursal {
 		
 	}
 
-public static void deleteSucursal(int id) throws Exception{
+public void deleteSucursal(int id) throws Exception{
 	
 	try {
         // below two lines are used for connectivity.
