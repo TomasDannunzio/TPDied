@@ -17,7 +17,9 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
+import App.FramePrincipal;
 import Gestores.GestorSucursal;
 import POJO.Sucursal;
 
@@ -47,13 +49,16 @@ public class FrameSucursal extends JFrame {
 	private JLabel lblNewLabel_3;
 	private JButton btnNewButton_1;
 	private JLabel lblNewLabel_4;
-	private JCheckBox chckbxNewCheckBox;
+	private JCheckBox checkboxOperativa;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
+	private JButton btnNewButton_4;
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -78,9 +83,9 @@ public class FrameSucursal extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{50, 0, 400, 15, 89, 400, 50, 50, 0};
+		gbl_contentPane.columnWidths = new int[]{50, 0, 290, 15, 89, 145, 145, 50, 50, 0};
 		gbl_contentPane.rowHeights = new int[]{50, 50, 50, 50, 25, 25, 0, 50, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -171,6 +176,35 @@ public class FrameSucursal extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String idString = textField.getText();
+				Integer id = 0;
+				
+				if(!idString.equals("")) id = Integer.parseInt(idString); else id = null;
+				
+				String nombre = textField_1.getText();
+				String horarioApertura = textField_2.getText();
+				String horarioCierre = textField_3.getText();
+				boolean operativa = checkboxOperativa.isSelected();
+				
+				ArrayList<Sucursal> listaBusqueda = null;
+				
+				try {
+					listaBusqueda = 
+							GestorSucursal.getInstance().getSucursal(id, nombre, horarioApertura, horarioCierre, operativa);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				//System.out.println(listaBusqueda);
+				
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				
+				model.setRowCount(0);
+				
+				cargarModelo(model,listaBusqueda);
+				
 			}
 		});
 		
@@ -183,15 +217,15 @@ public class FrameSucursal extends JFrame {
 		gbc_lblNewLabel_4.gridy = 3;
 		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
-		chckbxNewCheckBox = new JCheckBox("");
-		GridBagConstraints gbc_chckbxNewCheckBox = new GridBagConstraints();
-		gbc_chckbxNewCheckBox.anchor = GridBagConstraints.WEST;
-		gbc_chckbxNewCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxNewCheckBox.gridx = 2;
-		gbc_chckbxNewCheckBox.gridy = 3;
-		contentPane.add(chckbxNewCheckBox, gbc_chckbxNewCheckBox);
+		checkboxOperativa = new JCheckBox("");
+		GridBagConstraints gbc_checkboxOperativa = new GridBagConstraints();
+		gbc_checkboxOperativa.anchor = GridBagConstraints.WEST;
+		gbc_checkboxOperativa.insets = new Insets(0, 0, 5, 5);
+		gbc_checkboxOperativa.gridx = 2;
+		gbc_checkboxOperativa.gridy = 3;
+		contentPane.add(checkboxOperativa, gbc_checkboxOperativa);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridwidth = 2;
+		gbc_btnNewButton.gridwidth = 3;
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 5;
@@ -207,9 +241,33 @@ public class FrameSucursal extends JFrame {
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
 		
+		btnNewButton_4 = new JButton("Crear");
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_4.gridx = 4;
+		gbc_btnNewButton_4.gridy = 5;
+		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
+		
+		btnNewButton_3 = new JButton("Modificar");
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_3.gridx = 5;
+		gbc_btnNewButton_3.gridy = 5;
+		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
+		
+		btnNewButton_2 = new JButton("Eliminar");
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_2.gridx = 6;
+		gbc_btnNewButton_2.gridy = 5;
+		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 6;
+		gbc_scrollPane.gridwidth = 7;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
@@ -218,7 +276,19 @@ public class FrameSucursal extends JFrame {
 		
 		String[] columnNames = { "ID", "Nombre", "Horario apertura","Horario cierre", "Operativa"};
 		
+		ArrayList<Sucursal> lista = new ArrayList<Sucursal>();
+		
+		try {
+			lista = GestorSucursal.getInstance().getAllSucursal();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
+		
+		cargarModelo(model,lista);
+		
 		table = new JTable(model);
 		table.setBackground(new Color(255, 255, 255));
 		table.setForeground(new Color(0, 0, 0));
@@ -230,9 +300,28 @@ public class FrameSucursal extends JFrame {
 		
 		btnNewButton_1 = new JButton("Volver");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FrameSucursal.this.setVisible(false);
+				
+				FramePrincipal principal = new FramePrincipal();
+				
+				try {
+					principal.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				
+				FrameSucursal.this.dispose();
+				
+			}
+		});
+		
+		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.gridwidth = 2;
-		gbc_btnNewButton_1.gridx = 6;
+		gbc_btnNewButton_1.gridx = 7;
 		gbc_btnNewButton_1.gridy = 7;
 		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
 		
@@ -242,13 +331,11 @@ public class FrameSucursal extends JFrame {
 		JLabel headerLabel = (JLabel) rendererFromHeader;
 		headerLabel.setHorizontalAlignment(JLabel.CENTER);
 		
-		ArrayList<Sucursal> lista = null;
-		try {
-			lista = GestorSucursal.getInstance().getAllSucursal();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		
+	}
+	
+	private void cargarModelo(DefaultTableModel model, ArrayList<Sucursal> lista) {
 		
 		for(int i=0;i<lista.size();i++) {
 

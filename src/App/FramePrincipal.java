@@ -1,7 +1,7 @@
 package App;
 
 import java.awt.EventQueue;
-
+import Interfaces.FrameSucursal;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -63,7 +63,21 @@ public class FramePrincipal extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				FrameSucursal gestionSucursal = new FrameSucursal();
+				
+				FramePrincipal.this.setVisible(false);
+				
+				try {
+				gestionSucursal.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				
+				FramePrincipal.this.dispose();
+				
 			}
+		
 		});
 		
 		JLabel lblNewLabel = new JLabel("Sistema de Gestión Logístico");

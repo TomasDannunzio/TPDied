@@ -137,16 +137,44 @@ public Sucursal getSucursalByNombre(String nom) throws Exception{
     
 }
 
-public Sucursal getSucursal(int i, String nom) throws Exception{
+public ArrayList<Sucursal> getSucursal(Integer id, String nom, String horarioApertura, String horarioCierre, boolean operativa) throws Exception{
 		Sucursal s = null;
+		
+		ArrayList<Sucursal> lista = new ArrayList<Sucursal>();
+		
 	    try {
 	        // below two lines are used for connectivity.
 	    	Connection connection = ConexionBDD.getConnection();
 	        Statement statement;
 	        statement = connection.createStatement();
-	        ResultSet resultSet = statement.executeQuery(
-	            "select * from sucursal where sucursal_id = " + i + " AND nombre = \"" + nom+"\"");
-	   
+	        
+	        String idQuery= "sucursal_id = " + id;
+	        String nombreQuery = "nombre = \"" + nom+"\"";
+	        String horarioAperturaQuery = "horarioapertura = \"" + horarioApertura +"\"";
+	        String horarioCierreQuery = "horariocierre = \"" + horarioCierre +"\"";
+	        
+	        String operativaQuery = null;
+	        
+	        if(operativa) operativaQuery = "operativa = true"; else operativaQuery = "operativa = false";
+	        
+	        String queryFinal = "select * from sucursal where ";
+	        
+	        int sum = 0;
+	        
+	        if(id != null) {queryFinal += idQuery; sum++;}
+	        if(!nom.equals("")) {if(sum>0) queryFinal = queryFinal + " AND " + nombreQuery; else queryFinal += nombreQuery; sum++;}
+	        if(!horarioApertura.equals("")) {if(sum>0) queryFinal = queryFinal + " AND " + horarioAperturaQuery; 
+	        else queryFinal += horarioAperturaQuery; sum++;}
+	        if(!horarioCierre.equals("")) {if(sum>0) queryFinal = queryFinal + " AND " + horarioCierreQuery; 
+	        else queryFinal += horarioCierreQuery; sum++;}
+	        if(sum>0) queryFinal = queryFinal + " AND " + operativaQuery; else queryFinal += operativaQuery;
+	        
+	        queryFinal += ";";
+	        
+	        System.out.println(queryFinal);
+	        
+	        ResultSet resultSet = statement.executeQuery(queryFinal);
+	        
 	        while (resultSet.next()) {
 	           s = new Sucursal(resultSet.getInt("sucursal_id"),
 	        		   resultSet.getString("nombre"),
@@ -154,6 +182,9 @@ public Sucursal getSucursal(int i, String nom) throws Exception{
 	        		   resultSet.getTime("horarioCierre").toLocalTime(),
 	        		   resultSet.getBoolean("operativa")
 	        		   );
+	           
+	           lista.add(s);
+	           
 	        }
 	        
 	        resultSet.close();
@@ -164,7 +195,7 @@ public Sucursal getSucursal(int i, String nom) throws Exception{
 	        System.out.println(exception);
 	    }
 	    
-	    return s;
+	    return lista;
 	    
 	}
 
