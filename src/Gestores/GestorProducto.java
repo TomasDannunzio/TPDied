@@ -5,10 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
+import java.util.ArrayList;
 
-import POJO.Sucursal;
+import POJO.Producto;
 
 public class GestorProducto {
+public static GestorProducto gestorProducto;
+	
+	public static GestorProducto getInstance() {
+		if(gestorProducto==null) {
+			gestorProducto = new GestorProducto();
+		}
+		return gestorProducto;
+	}
 	public Producto getProductoById(int i) throws Exception{
 		Producto p = null;
         try {
@@ -23,6 +32,7 @@ public class GestorProducto {
                p = new Producto(resultSet.getInt("producto_id"),
             		   resultSet.getString("nombre"),
             		   resultSet.getString("descripcion"),
+            		   resultSet.getFloat("Precio"),
             		   resultSet.getFloat("Peso"));
             }
             
@@ -37,7 +47,39 @@ public class GestorProducto {
         return p;
         
 	}
-public static void createProducto(Producto p) throws Exception{
+	public Producto getProductoByNombre(String nom) throws Exception{
+		Producto p = null;
+	    try {
+	        // below two lines are used for connectivity.
+	    	Connection connection = ConexionBDD.getConnection();
+	        Statement statement;
+	        statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery(
+	            "select * from producto where nombre = \"" + nom+"\"");
+	   
+	        while (resultSet.next()) {
+	               p = new Producto(resultSet.getInt("producto_id"),
+	            		   resultSet.getString("nombre"),
+	            		   resultSet.getString("descripcion"),
+	            		   resultSet.getFloat("Precio"),
+	            		   resultSet.getFloat("Peso"));
+	            }
+	        
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    }
+	    catch (Exception exception) {
+	        System.out.println(exception);
+	    }
+	    
+	    return p;
+	    
+	}	
+	
+	
+	
+public void createProducto(Producto p) throws Exception{
 		
 		try {
             // below two lines are used for connectivity.
@@ -58,7 +100,7 @@ public static void createProducto(Producto p) throws Exception{
         }
 		
 	}
-public static void deleteProducto(int id) throws Exception{
+public void deleteProducto(int id) throws Exception{
 	
 	try {
         // below two lines are used for connectivity.
@@ -73,5 +115,83 @@ public static void deleteProducto(int id) throws Exception{
         System.out.println(exception);
     }
 	
+}
+public ArrayList<Producto> getProducto(Integer id, String nom) throws Exception{
+	Producto p = null;
+	
+	ArrayList<Producto> lista = new ArrayList<Producto>();
+	
+    try {
+        // below two lines are used for connectivity.
+    	Connection connection = ConexionBDD.getConnection();
+        Statement statement;
+        statement = connection.createStatement();
+        
+        String idQuery= "Producto_id = " + id;
+        String nombreQuery = "nombre = \"" + nom+"\"";
+        
+        String queryFinal = "select * from Producto where ";
+        
+        boolean checkid = false;
+        
+        if(id != null) {queryFinal += idQuery; checkid = true;}
+        if(!nom.equals("")) {if(checkid) queryFinal = queryFinal + " AND " + nombreQuery; else queryFinal += nombreQuery;}
+        
+        queryFinal += ";";
+        
+        System.out.println(queryFinal);
+        
+        ResultSet resultSet = statement.executeQuery(queryFinal);
+        
+        while (resultSet.next()) {
+            p = new Producto(resultSet.getInt("producto_id"),
+         		   resultSet.getString("nombre"),
+         		   resultSet.getString("descripcion"),
+         		   resultSet.getFloat("Precio"),
+         		   resultSet.getFloat("Peso"));
+            		lista.add(p);
+         }
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+    
+    return lista;
+    
+}
+public ArrayList<Producto> getAllProducto() throws Exception{
+	Producto p = null;
+	ArrayList<Producto> lista = new ArrayList<Producto>();
+    try {
+        // below two lines are used for connectivity.
+    	Connection connection = ConexionBDD.getConnection();
+        Statement statement;
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+            "select * from Producto");
+        
+        while (resultSet.next()) {
+            p = new Producto(resultSet.getInt("producto_id"),
+         		   resultSet.getString("nombre"),
+         		   resultSet.getString("descripcion"),
+         		   resultSet.getFloat("Precio"),
+         		   resultSet.getFloat("Peso"));
+            lista.add(p);
+         }
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+    
+    return lista;
+    
 }
 }

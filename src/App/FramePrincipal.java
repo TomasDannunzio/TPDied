@@ -2,6 +2,7 @@ package App;
 
 import java.awt.EventQueue;
 import Interfaces.FrameSucursal;
+import Interfaces.FrameProducto;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -75,7 +76,7 @@ public class FramePrincipal extends JFrame {
 				}
 				
 				FramePrincipal.this.dispose();
-				
+						
 			}
 		
 		});
@@ -125,6 +126,23 @@ public class FramePrincipal extends JFrame {
 		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Producto\r\n");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FrameProducto gestionProducto = new FrameProducto();
+				
+				FramePrincipal.this.setVisible(false);
+				
+				try {
+				gestionProducto.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				
+				FramePrincipal.this.dispose();
+				
+			}
+		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 		gbc_btnNewButton_3.fill = GridBagConstraints.BOTH;

@@ -5,13 +5,22 @@ public class Producto {
 	private int producto_id;
 	private String nombre;
 	private String descripcion;
+	private float precio;
+	
+	public float getPrecio() {
+		return precio;
+	}
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
 	private float peso;
 	
 	//Setters & Getters
-	public int getProducto_id() {
+	public int getId() {
 		return producto_id;
 	}
-	public void setProducto_id(int producto_id) {
+	public void setId(int producto_id) {
 		this.producto_id = producto_id;
 	}
 	public String getNombre() {
@@ -34,11 +43,12 @@ public class Producto {
 	}
 	
 	//Constructor
-	public Producto(int producto_id, String nombre, String descripcion, float peso) {
+	public Producto(int producto_id, String nombre, String descripcion,float precio, float peso) {
 		super();
 		this.producto_id = producto_id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
+		this.precio = precio;
 		this.peso = peso;
 	}
 
