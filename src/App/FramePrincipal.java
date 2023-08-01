@@ -23,6 +23,14 @@ import javax.swing.border.CompoundBorder;
 
 public class FramePrincipal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+
 	private JPanel contentPane;
 
 	/**
@@ -48,13 +56,13 @@ public class FramePrincipal extends JFrame {
 		setType(Type.POPUP);
 		setTitle("Sistema de Gestión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(100, 100, 1028, 650);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{300, 300, 300, 200, 0};
+		gbl_contentPane.columnWidths = new int[]{217, 280, 269, 200, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 51, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -135,8 +143,8 @@ public class FramePrincipal extends JFrame {
 				
 				try {
 				gestionProducto.setVisible(true);
-				} catch(Exception er) {
-					er.printStackTrace();
+				} catch(Exception e2) {
+					e2.printStackTrace();
 				}
 				
 				FramePrincipal.this.dispose();
@@ -151,5 +159,5 @@ public class FramePrincipal extends JFrame {
 		gbc_btnNewButton_3.gridy = 6;
 		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
 	}
-
+ //
 }

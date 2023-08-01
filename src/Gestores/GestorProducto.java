@@ -1,10 +1,13 @@
 package Gestores;
 import POJO.Producto;
+import POJO.Producto;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import POJO.Producto;
@@ -79,16 +82,35 @@ public static GestorProducto gestorProducto;
 	
 	
 	
-public void createProducto(Producto p) throws Exception{
+	public Producto createProducto(int id, String nombre, String descripcion, 
+			Float precio, Float peso) {
+		
+		Producto p = new Producto(id,nombre,descripcion,precio,peso);
+
+		try {
+		persistProducto(p);
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("No se ha podido persistir");
+		}
+		
+		return p;
+
+	}
+	
+	
+public void persistProducto(Producto p) throws Exception{
 		
 		try {
+			System.out.println("Entré");
             // below two lines are used for connectivity.
 			Connection connection = ConexionBDD.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into producto(id_producto, nombre, descripcion, peso) values(?, ?, ?, ?)");
-			preparedStatement.setInt(1, p.getProducto_id());
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into Producto(Producto_id, nombre, horarioApertura, horarioCierre, operativa) values(?, ?, ?, ?, ?)");
+			preparedStatement.setInt(1, p.getId());
 			preparedStatement.setString(2, p.getNombre());
 			preparedStatement.setString(3, p.getDescripcion());
-			preparedStatement.setFloat(4, p.getPeso());
+			preparedStatement.setFloat(4, p.getPrecio());
+			preparedStatement.setFloat(5, p.getPeso());
             
 			preparedStatement.executeUpdate();
 			
