@@ -111,7 +111,7 @@ public class EditarProducto extends JFrame {
 		
 		Producto p = null;
 		try {
-			s = GestorProducto.getInstance().getProductoById(i);
+			p = GestorProducto.getInstance().getProductoById(i);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

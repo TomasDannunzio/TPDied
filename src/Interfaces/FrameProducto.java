@@ -48,10 +48,9 @@ public class FrameProducto extends JFrame {
 	private JLabel lblNewLabel_6;
 	private JButton btnNewButton_2;
 	
-	/*
+	
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
-	*/
 	
 	/**
 	 * Launch the application.
@@ -182,7 +181,7 @@ public class FrameProducto extends JFrame {
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
 		
-		/*
+		
 		btnNewButton_4 = new JButton("Crear");
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
@@ -236,7 +235,7 @@ public class FrameProducto extends JFrame {
 				
 			}
 		});
-		*/
+		
 		btnNewButton_2 = new JButton("Eliminar");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

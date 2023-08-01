@@ -105,7 +105,7 @@ public void persistProducto(Producto p) throws Exception{
 			System.out.println("Entré");
             // below two lines are used for connectivity.
 			Connection connection = ConexionBDD.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Producto(Producto_id, nombre, horarioApertura, horarioCierre, operativa) values(?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into Producto(Producto_id, nombre, descripcion, precio, peso) values(?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, p.getId());
 			preparedStatement.setString(2, p.getNombre());
 			preparedStatement.setString(3, p.getDescripcion());
@@ -127,8 +127,43 @@ public void deleteProducto(int id) throws Exception{
 	try {
         // below two lines are used for connectivity.
 		Connection connection = ConexionBDD.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("Delete from Producto where id_producto = "+id);
+        PreparedStatement preparedStatement = connection.prepareStatement("Delete from Producto where producto_id= "+id);
 		preparedStatement.executeUpdate();
+		
+        preparedStatement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+	
+}
+public void updateProducto(int id, String nombre, String descripcion,
+		float precio, float peso) {
+	
+	try {
+        // below two lines are used for connectivity.
+		Connection connection = ConexionBDD.getConnection();
+		
+		String finalQuery = "UPDATE Producto SET ";
+		
+		String nombreQuery = "nombre = \"" + nombre + "\"";
+		
+		String descripcionQuery = ",descripcion = \"" + descripcion+"\"";
+		
+		String precioQuery = ",precio = \"" + precio+"\"";
+		
+		String pesoQuery = ",peso = \"" + peso+"\"";;
+        
+		
+        finalQuery += nombreQuery+descripcionQuery+precioQuery+pesoQuery;
+        
+		finalQuery += " WHERE Producto_ID= "+id+";";
+		
+        PreparedStatement preparedStatement = connection.
+        		prepareStatement(finalQuery);
+		
+        preparedStatement.executeUpdate();
 		
         preparedStatement.close();
         connection.close();

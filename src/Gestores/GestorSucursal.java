@@ -68,7 +68,6 @@ public class GestorSucursal {
 	public void persistSucursal(Sucursal s) throws Exception{
 		
 		try {
-			System.out.println("Entré");
             // below two lines are used for connectivity.
 			Connection connection = ConexionBDD.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into sucursal(sucursal_id, nombre, horarioApertura, horarioCierre, operativa) values(?, ?, ?, ?, ?)");
