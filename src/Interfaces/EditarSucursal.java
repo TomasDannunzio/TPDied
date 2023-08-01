@@ -27,22 +27,20 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-public class CrearSucursal extends JFrame {
+public class EditarSucursal extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtId;
+	private JTextField horApText;
+	private JTextField nombreText;
+	private JTextField horCeText;
 
-	/**
-	 * Launch the application.
-	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CrearSucursal frame = new CrearSucursal();
+					EditarSucursal frame = new EditarSucursal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +52,7 @@ public class CrearSucursal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CrearSucursal() {
+	public EditarSucursal(int i) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 420);
 		contentPane = new JPanel();
@@ -110,25 +108,37 @@ public class CrearSucursal extends JFrame {
 		gbc_lblNewLabel_1_1.gridy = 0;
 		panel.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		Sucursal s = null;
+		try {
+			s = GestorSucursal.getInstance().getSucursalById(i);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_2.setColumns(10);
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 3;
-		gbc_textField_2.gridy = 1;
-		panel.add(textField_2, gbc_textField_2);
+		Integer id = s.getId();
+		
+		txtId = new JTextField();
+		txtId.setText(id.toString());
+		txtId.setEditable(false);
+		txtId.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_txtAd = new GridBagConstraints();
+		gbc_txtAd.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAd.gridx = 1;
+		gbc_txtAd.gridy = 1;
+		panel.add(txtId, gbc_txtAd);
+		txtId.setColumns(10);
+		
+		nombreText = new JTextField(s.getNombre());
+		nombreText.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		nombreText.setColumns(10);
+		GridBagConstraints gbc_nombreText = new GridBagConstraints();
+		gbc_nombreText.insets = new Insets(0, 0, 5, 5);
+		gbc_nombreText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nombreText.gridx = 3;
+		gbc_nombreText.gridy = 1;
+		panel.add(nombreText, gbc_nombreText);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Horario de apertura:");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -148,25 +158,25 @@ public class CrearSucursal extends JFrame {
 		gbc_lblNewLabel_1_3.gridy = 2;
 		panel.add(lblNewLabel_1_3, gbc_lblNewLabel_1_3);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_1.setColumns(10);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 3;
-		panel.add(textField_1, gbc_textField_1);
+		horApText = new JTextField(s.getHorarioApertura().toString());
+		horApText.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		horApText.setColumns(10);
+		GridBagConstraints gbc_horApText = new GridBagConstraints();
+		gbc_horApText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_horApText.insets = new Insets(0, 0, 5, 5);
+		gbc_horApText.gridx = 1;
+		gbc_horApText.gridy = 3;
+		panel.add(horApText, gbc_horApText);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_3.setColumns(10);
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 3;
-		gbc_textField_3.gridy = 3;
-		panel.add(textField_3, gbc_textField_3);
+		horCeText = new JTextField(s.getHorarioCierre().toString());
+		horCeText.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		horCeText.setColumns(10);
+		GridBagConstraints gbc_horCeText = new GridBagConstraints();
+		gbc_horCeText.insets = new Insets(0, 0, 5, 5);
+		gbc_horCeText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_horCeText.gridx = 3;
+		gbc_horCeText.gridy = 3;
+		panel.add(horCeText, gbc_horCeText);
 		
 		JLabel lblNewLabel_2 = new JLabel("Está operativa?");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -187,7 +197,7 @@ public class CrearSucursal extends JFrame {
 		gbc_comboBox.gridy = 5;
 		panel.add(comboBox, gbc_comboBox);
 		
-		JButton btnNewButton = new JButton("Crear");
+		JButton btnNewButton = new JButton("Editar");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
@@ -197,23 +207,19 @@ public class CrearSucursal extends JFrame {
 		panel.add(btnNewButton, gbc_btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String idString = textField.getText();
-				Integer id = 0;
 				
-				if(!idString.equals("")) id = Integer.parseInt(idString); else id = null;
-				
-				String nombre = textField_2.getText();
-				String horarioApertura = textField_1.getText();
-				String horarioCierre = textField_3.getText();
+				String nombre = nombreText.getText();
+				String horarioApertura = horApText.getText();
+				String horarioCierre = horCeText.getText();
 				String operativaSeleccionada = comboBox.getSelectedItem().toString();
 				
 				boolean operativa = false;
 				
 				if(operativaSeleccionada.equals("Si")) operativa=true; else operativa=false;
 				
-				GestorSucursal.getInstance().createSucursal(id, nombre, LocalTime.parse(horarioApertura), LocalTime.parse(horarioCierre), operativa);
+				GestorSucursal.getInstance().updateSucursal(id, nombre, LocalTime.parse(horarioApertura), LocalTime.parse(horarioCierre), operativa);
 				
-				CrearSucursal.this.setVisible(false);
+				EditarSucursal.this.setVisible(false);
 				
 				FrameSucursal principal = new FrameSucursal();
 				
@@ -223,7 +229,7 @@ public class CrearSucursal extends JFrame {
 					er.printStackTrace();
 				}
 				
-				CrearSucursal.this.dispose();
+				EditarSucursal.this.dispose();
 				
 			}
 		});
@@ -240,7 +246,7 @@ public class CrearSucursal extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				CrearSucursal.this.setVisible(false);
+				EditarSucursal.this.setVisible(false);
 				
 				FrameSucursal principal = new FrameSucursal();
 				
@@ -250,7 +256,7 @@ public class CrearSucursal extends JFrame {
 					er.printStackTrace();
 				}
 				
-				CrearSucursal.this.dispose();
+				EditarSucursal.this.dispose();
 				
 			}
 		});

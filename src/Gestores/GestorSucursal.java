@@ -205,8 +205,25 @@ public void updateSucursal(int id, String nombre, LocalTime horarioApertura,
 	try {
         // below two lines are used for connectivity.
 		Connection connection = ConexionBDD.getConnection();
+		
+		String finalQuery = "UPDATE SUCURSAL SET ";
+		
+		String nombreQuery = "nombre = \"" + nombre + "\"";
+		
+		String horarioAperturaQuery = ",horarioapertura = \"" + horarioApertura.toString()+"\"";
+		
+		String horarioCierreQuery = ",horariocierre = \"" + horarioCierre.toString()+"\"";
+		
+		String operativaQuery = null;
+        
+        if(operativa) operativaQuery = ",operativa = true"; else operativaQuery = ",operativa = false";
+		
+        finalQuery += nombreQuery+horarioAperturaQuery+horarioCierreQuery+operativaQuery;
+        
+		finalQuery += " WHERE SUCURSAL_ID= "+id+";";
+		
         PreparedStatement preparedStatement = connection.
-        		prepareStatement("UPDATE FROM SUCURSAL WHERE SUCURSAL_ID="+id+"");
+        		prepareStatement(finalQuery);
 		
         preparedStatement.executeUpdate();
 		

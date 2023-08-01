@@ -268,18 +268,41 @@ public class FrameSucursal extends JFrame {
 		});
 		
 		
-		btnNewButton_3 = new JButton("Modificar");
+		btnNewButton_3 = new JButton("Editar");
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_3.gridx = 5;
 		gbc_btnNewButton_3.gridy = 5;
 		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(table.getSelectedRow() != -1) {
+				
+					FrameSucursal.this.setVisible(false);
+					
+					EditarSucursal editarSucursal= new EditarSucursal((int) table.getModel().getValueAt(table.getSelectedRow(),0));
+					
+					try {
+						editarSucursal.setVisible(true);
+					} catch(Exception er) {
+						er.printStackTrace();
+					}
+					
+					FrameSucursal.this.dispose();
+					
+				}
+				
+			}
+		});
 		
 		btnNewButton_2 = new JButton("Eliminar");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
+				if(table.getSelectedRow() != -1) {
+				
 					int filaSeleccionada = table.getSelectedRow();
 					
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -296,6 +319,9 @@ public class FrameSucursal extends JFrame {
 					model.fireTableDataChanged();
 					
 				}
+			
+			}
+			
 		});
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
