@@ -83,15 +83,16 @@ public static GestorProducto gestorProducto;
 	
 	
 	public Producto createProducto(int id, String nombre, String descripcion, 
-			Float precio, Float peso) {
+			Float precio, Float peso) throws Exception {
 		
 		Producto p = new Producto(id,nombre,descripcion,precio,peso);
 
 		try {
 		persistProducto(p);
 		} catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("No se ha podido persistir");
+			//e.printStackTrace();
+			//System.out.println("No se ha podido persistir");
+			throw new Exception();
 		}
 		
 		return p;
@@ -118,7 +119,8 @@ public void persistProducto(Producto p) throws Exception{
             connection.close();
         }
         catch (Exception exception) {
-            System.out.println(exception);
+            //System.out.println(exception);
+        	throw new Exception();
         }
 		
 	}

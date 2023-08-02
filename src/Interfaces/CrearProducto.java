@@ -223,7 +223,7 @@ public class CrearProducto extends JFrame {
 					CrearProducto.this.dispose();
 					
 				} catch(Exception er) {
-					er.printStackTrace();
+					System.out.println("El ID ya ha sido utilizado");
 				}
 				
 				
