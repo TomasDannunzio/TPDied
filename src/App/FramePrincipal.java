@@ -1,6 +1,7 @@
 package App;
 
 import java.awt.EventQueue;
+import Interfaces.CrearOrden;
 import Interfaces.FrameSucursal;
 import Interfaces.FrameCamino;
 import Interfaces.FrameProducto;
@@ -144,6 +145,23 @@ public class FramePrincipal extends JFrame {
 		});
 		
 		JButton btnNewButton_2 = new JButton("Orden de Provisión\r\n");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CrearOrden gestionOrden = new CrearOrden();
+				
+				FramePrincipal.this.setVisible(false);
+				
+				try {
+					gestionOrden.setVisible(true);
+				} catch(Exception e2) {
+					e2.printStackTrace();
+				}
+				
+				FramePrincipal.this.dispose();
+			}
+		});
+			
 		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
