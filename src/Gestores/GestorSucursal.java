@@ -50,15 +50,16 @@ public class GestorSucursal {
 	
 
 	public Sucursal createSucursal(int id, String nombre, LocalTime horarioApertura, 
-			LocalTime horarioCierre, boolean operativa) {
+			LocalTime horarioCierre, boolean operativa) throws Exception {
 		
 		Sucursal s = new Sucursal(id,nombre,horarioApertura,horarioCierre,operativa);
 
 		try {
 		persistSucursal(s);
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.out.println("No se ha podido persistir");
+			throw new Exception();
 		}
 		
 		return s;
@@ -84,6 +85,7 @@ public class GestorSucursal {
         }
         catch (Exception exception) {
             System.out.println(exception);
+            throw new Exception();
         }
 		
 	}

@@ -211,19 +211,22 @@ public class CrearSucursal extends JFrame {
 				
 				if(operativaSeleccionada.equals("Si")) operativa=true; else operativa=false;
 				
-				GestorSucursal.getInstance().createSucursal(id, nombre, LocalTime.parse(horarioApertura), LocalTime.parse(horarioCierre), operativa);
-				
-				CrearSucursal.this.setVisible(false);
-				
-				FrameSucursal principal = new FrameSucursal();
-				
 				try {
+					
+					GestorSucursal.getInstance().createSucursal(id, nombre, LocalTime.parse(horarioApertura), LocalTime.parse(horarioCierre), operativa);
+					
+					CrearSucursal.this.setVisible(false);
+					
+					FrameSucursal principal = new FrameSucursal();
+					
 					principal.setVisible(true);
+					
+					CrearSucursal.this.dispose();
+					
 				} catch(Exception er) {
-					er.printStackTrace();
+					System.out.println("El ID ingresado ya ha sido utilizado.");
 				}
 				
-				CrearSucursal.this.dispose();
 				
 			}
 		});

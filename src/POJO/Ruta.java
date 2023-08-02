@@ -60,5 +60,9 @@ public class Ruta {
 		this.operativa = operativa;
 	}
 	
+	public String esOperativa() {
+		// TODO Auto-generated method stub
+		if(this.operativa) return "Si"; else return "No";
+	}
 	
 }

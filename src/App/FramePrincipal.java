@@ -2,6 +2,7 @@ package App;
 
 import java.awt.EventQueue;
 import Interfaces.FrameSucursal;
+import Interfaces.FrameCamino;
 import Interfaces.FrameProducto;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -123,6 +124,24 @@ public class FramePrincipal extends JFrame {
 		gbc_btnNewButton_1.gridx = 2;
 		gbc_btnNewButton_1.gridy = 5;
 		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FrameCamino gestionCamino = new FrameCamino();
+				
+				FramePrincipal.this.setVisible(false);
+				
+				try {
+				gestionCamino.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				
+				FramePrincipal.this.dispose();
+						
+			}
+		
+		});
 		
 		JButton btnNewButton_2 = new JButton("Orden de Provisión\r\n");
 		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 20));

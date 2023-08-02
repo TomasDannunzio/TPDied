@@ -208,20 +208,24 @@ public class CrearProducto extends JFrame {
 				Float precio = Float.parseFloat(textField_3.getText());
 				Float peso= Float.parseFloat(textField_4.getText());
 				
-				
-				GestorProducto.getInstance().createProducto(id, nombre, descripcion, precio, peso);
-				
-				CrearProducto.this.setVisible(false);
-				
-				FrameProducto principal = new FrameProducto();
-				
 				try {
+				
+					GestorProducto.getInstance().createProducto(id, nombre, descripcion, precio, peso);
+				
+					CrearProducto.this.setVisible(false);
+					
+					FrameProducto principal = new FrameProducto();
+					
+					
 					principal.setVisible(true);
+					
+					
+					CrearProducto.this.dispose();
+					
 				} catch(Exception er) {
 					er.printStackTrace();
 				}
 				
-				CrearProducto.this.dispose();
 				
 			}
 		});
