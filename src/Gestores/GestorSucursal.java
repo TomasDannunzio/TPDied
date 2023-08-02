@@ -8,7 +8,7 @@ import POJO.Sucursal;
 
 public class GestorSucursal {
 	
-	public static GestorSucursal gestor;
+	private static GestorSucursal gestor;
 	
 	public static GestorSucursal getInstance() {
 		if(gestor==null) {
@@ -107,16 +107,22 @@ public void deleteSucursal(int id) throws Exception{
 	
 }
 
-public Sucursal getSucursalByNombre(String nom) throws Exception{
+public Sucursal getSucursalByNombre(String nom){
 	Sucursal s = null;
     try {
         // below two lines are used for connectivity.
     	Connection connection = ConexionBDD.getConnection();
         Statement statement;
         statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(
-            "select * from sucursal where nombre = \"" + nom+"\"");
-   
+        
+        ResultSet resultSet = null;
+        
+        try {
+        resultSet = statement.executeQuery(
+            "select * from sucursal where nombre = \"" + nom +"\"");
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
         while (resultSet.next()) {
            s = new Sucursal(resultSet.getInt("sucursal_id"),
         		   resultSet.getString("nombre"),
@@ -171,8 +177,6 @@ public ArrayList<Sucursal> getSucursal(Integer id, String nom, String horarioApe
 	        if(sum>0) queryFinal = queryFinal + " AND " + operativaQuery; else queryFinal += operativaQuery;
 	        
 	        queryFinal += ";";
-	        
-	        System.out.println(queryFinal);
 	        
 	        ResultSet resultSet = statement.executeQuery(queryFinal);
 	        
@@ -237,7 +241,7 @@ public void updateSucursal(int id, String nombre, LocalTime horarioApertura,
 	
 }
 
-public ArrayList<Sucursal> getAllSucursal() throws Exception{
+public ArrayList<Sucursal> getAllSucursal() {
 	Sucursal s = null;
 	ArrayList<Sucursal> lista = new ArrayList<Sucursal>();
     try {
@@ -245,8 +249,15 @@ public ArrayList<Sucursal> getAllSucursal() throws Exception{
     	Connection connection = ConexionBDD.getConnection();
         Statement statement;
         statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(
+        
+        ResultSet resultSet = null;
+        
+        try {
+        	resultSet = statement.executeQuery(
             "select * from sucursal");
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
         
         while (resultSet.next()) {
            s = new Sucursal(resultSet.getInt("sucursal_id"),
