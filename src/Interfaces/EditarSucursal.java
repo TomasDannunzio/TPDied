@@ -53,6 +53,7 @@ public class EditarSucursal extends JFrame {
 	 * Create the frame.
 	 */
 	public EditarSucursal(int i) {
+		setTitle("Editar sucursal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 420);
 		contentPane = new JPanel();

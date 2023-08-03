@@ -39,6 +39,8 @@ public class EditarRuta extends JFrame {
 
 	public EditarRuta(int i) {
 		
+		setTitle("Editar ruta");
+		
 		Ruta r = GestorRuta.getInstance().getRutaById(i);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

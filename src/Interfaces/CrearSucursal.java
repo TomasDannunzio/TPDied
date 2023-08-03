@@ -55,6 +55,7 @@ public class CrearSucursal extends JFrame {
 	 * Create the frame.
 	 */
 	public CrearSucursal() {
+		setTitle("Crear sucursal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 420);
 		contentPane = new JPanel();

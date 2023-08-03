@@ -64,6 +64,7 @@ public class FrameCamino extends JFrame {
 	private JTextField idText;
 	
 	public FrameCamino() {
+		setTitle("Gestionar caminos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
 		contentPane = new JPanel();

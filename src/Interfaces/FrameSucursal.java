@@ -77,6 +77,7 @@ public class FrameSucursal extends JFrame {
 	 */
 	
 	public FrameSucursal() {
+		setTitle("Gestionar sucursal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
 		contentPane = new JPanel();
