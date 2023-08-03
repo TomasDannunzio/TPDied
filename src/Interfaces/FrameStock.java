@@ -1,5 +1,6 @@
 package Interfaces;
-
+import java.util.HashMap;
+import Gestores.GestorSucursal;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -44,8 +45,6 @@ public class FrameStock extends JFrame {
 	private JButton btnNewButton_1;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton;
@@ -120,6 +119,7 @@ public class FrameStock extends JFrame {
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
+<<<<<<< HEAD
 		/* ESTE EDITARLF ES PARA CUANDO ESTÉ LO DE PRODUCTOLF ANCHI
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,6 +185,8 @@ public class FrameStock extends JFrame {
 		gbc_btnNewButton_2.gridy = 5;
 		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
 		
+=======
+>>>>>>> 78b5088babe01f4bba90d2f0d6b3a37c7210287d
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 7;
@@ -196,15 +198,15 @@ public class FrameStock extends JFrame {
 		
 		String[] columnNames = { "ID", "Nombre", "Precio" ,"Cantidad"};
 		
-		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
+		HashMap<Producto, Integer> listaProductos = new HashMap<Producto, Integer>();
 		
 		try {
-			listaProductos = GestorProducto.getInstance().getAllProducto();
+			listaProductos = GestorSucursal.getInstance().getStock(id);
 		} catch (Exception e1) {
 		
 			e1.printStackTrace();
 		}
-		
+
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 		cargarModelo(model,listaProductos);
 		table = new JTable(model);
@@ -234,7 +236,7 @@ public class FrameStock extends JFrame {
 				
 			}
 		});
-		btnNewButton_4 = new JButton("Agregar Producto");
+		btnNewButton_4 = new JButton("Editar stock");
 		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
@@ -247,10 +249,10 @@ public class FrameStock extends JFrame {
 				
 				FrameStock.this.setVisible(false);
 				
-				CrearSucursal crearSucursal= new CrearSucursal();
+				EditarStock editarStock= new EditarStock((int)table.getModel().getValueAt(table.getSelectedRow(),3),(int)table.getModel().getValueAt(table.getSelectedRow(),0), (String) table.getModel().getValueAt(table.getSelectedRow(),1), id ,nombreSucursal);
 				
 				try {
-					crearSucursal.setVisible(true);
+					editarStock.setVisible(true);
 				} catch(Exception er) {
 					er.printStackTrace();
 				}
@@ -271,13 +273,11 @@ public class FrameStock extends JFrame {
 
 	}
 	
-	private void cargarModelo(DefaultTableModel model, ArrayList<Producto> listaProductos) {
+	private void cargarModelo(DefaultTableModel model, HashMap<Producto, Integer> listaProductos) {
 		
-		for(int i=0;i<listaProductos.size();i++) {
-
-			Object[] aux = {listaProductos.get(i).getId(), listaProductos.get(i).getNombre(), listaProductos.get(i).getPrecio(), 0};
+		for (HashMap.Entry<Producto, Integer> entry : listaProductos.entrySet()) {
+			Object[] aux = {entry.getKey().getId(), entry.getKey().getNombre(), entry.getKey().getPrecio(), entry.getValue()};
 			model.addRow(aux);
-			
 		}
 		
 	}

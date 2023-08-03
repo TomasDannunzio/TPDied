@@ -1,9 +1,10 @@
 package Gestores;
-
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import POJO.Producto;
 import POJO.Sucursal;
 
 public class GestorSucursal {
@@ -53,9 +54,10 @@ public class GestorSucursal {
 			LocalTime horarioCierre, boolean operativa) throws Exception {
 		
 		Sucursal s = new Sucursal(id,nombre,horarioApertura,horarioCierre,operativa);
-
+		ArrayList<Producto> p = GestorProducto.getInstance().getAllProducto();
 		try {
 		persistSucursal(s);
+		persistStock(s,p);
 		} catch(Exception e) {
 			//e.printStackTrace();
 			System.out.println("No se ha podido persistir");
@@ -66,6 +68,34 @@ public class GestorSucursal {
 
 	}
 	
+	private void persistStock(Sucursal s, ArrayList<Producto> p)throws Exception{
+		try {
+			System.out.println("Entré");
+            // below two lines are used for connectivity.
+			Connection connection = ConexionBDD.getConnection();
+            
+            p.stream().forEach( t -> {
+				try {
+					PreparedStatement preparedStatement = connection.prepareStatement("insert into Stock(Producto_id, Sucursal_id, cantidad) values(?, ?, 0)");
+					preparedStatement.setInt(1, t.getId());
+					preparedStatement.setInt(2, s.getId());
+					preparedStatement.executeUpdate();
+		            preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+           
+            connection.close();
+        }
+        catch (Exception exception) {
+            //System.out.println(exception);
+        	throw new Exception();
+        }
+		
+	}
+
 	public void persistSucursal(Sucursal s) throws Exception{
 		
 		try {
@@ -283,5 +313,45 @@ public ArrayList<Sucursal> getAllSucursal() {
     
 }
 
+
+public void updateStock(int producto, int cant)throws Exception{
+	Connection connection = ConexionBDD.getConnection();
+	PreparedStatement preparedStatement = connection.prepareStatement("UPDATE stock SET cantidad = "+ cant +" where producto_id ="+producto);
+	preparedStatement.executeUpdate();
+    preparedStatement.close();
+    connection.close();
+}
+
+public HashMap<Producto, Integer> getStock(int id) throws Exception{
+	Producto p = null;
+	HashMap<Producto, Integer> lista = new HashMap<Producto, Integer>();
+    try {
+        // below two lines are used for connectivity.
+    	Connection connection = ConexionBDD.getConnection();
+        Statement statement;
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery( "select p.*, s.cantidad from Stock S, producto P where P.producto_id = S.Producto_id AND S.sucursal_id ="+ id);
+        ;
+        while (resultSet.next()) {
+            p = new Producto(resultSet.getInt("producto_id"),
+         		   resultSet.getString("nombre"),
+         		   resultSet.getString("descripcion"),
+         		   resultSet.getFloat("Precio"),
+         		   resultSet.getFloat("Peso"));
+            Integer cant = resultSet.getInt("cantidad");	
+            lista.put(p, cant);
+         }
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+    
+    return lista;
+    
+}
 
 }
