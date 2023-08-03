@@ -285,6 +285,16 @@ public ArrayList<Sucursal> getAllSucursal() {
     
 }
 
+
+public void updateStock(int producto, int cant)throws Exception{
+	Connection connection = ConexionBDD.getConnection();
+	PreparedStatement preparedStatement = connection.prepareStatement("UPDATE stock SET cantidad ="+ cant +"where producto_id ="+producto);
+	preparedStatement.executeUpdate();
+    preparedStatement.close();
+    connection.close();
+
+}
+
 public HashMap<Producto, Integer> getStock(int id) throws Exception{
 	Producto p = null;
 	HashMap<Producto, Integer> lista = new HashMap<Producto, Integer>();
@@ -293,16 +303,16 @@ public HashMap<Producto, Integer> getStock(int id) throws Exception{
     	Connection connection = ConexionBDD.getConnection();
         Statement statement;
         statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery( "select p.*, s.cantidad from Stock S, producto P where P.producto_id = S.Producto_id AND S.sucursal_id "+id);
-        
+        ResultSet resultSet = statement.executeQuery( "select p.*, s.cantidad from Stock S, producto P where P.producto_id = S.Producto_id AND S.sucursal_id ="+ id);
+        ;
         while (resultSet.next()) {
             p = new Producto(resultSet.getInt("producto_id"),
          		   resultSet.getString("nombre"),
          		   resultSet.getString("descripcion"),
          		   resultSet.getFloat("Precio"),
          		   resultSet.getFloat("Peso"));
-            		
-            lista.put(p, null);
+            Integer cant = resultSet.getInt("cantidad");	
+            lista.put(p, cant);
          }
         
         resultSet.close();

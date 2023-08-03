@@ -1,4 +1,5 @@
 package Interfaces;
+import java.util.HashMap;
 import Gestores.GestorSucursal;
 import java.awt.EventQueue;
 
@@ -195,7 +196,7 @@ public class FrameStock extends JFrame {
 		
 		String[] columnNames = { "ID", "Nombre", "Precio" ,"Cantidad"};
 		
-		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
+		HashMap<Producto, Integer> listaProductos = new HashMap<Producto, Integer>();
 		
 		try {
 			listaProductos = GestorSucursal.getInstance().getStock(id);
@@ -270,13 +271,11 @@ public class FrameStock extends JFrame {
 
 	}
 	
-	private void cargarModelo(DefaultTableModel model, ArrayList<Producto> listaProductos) {
+	private void cargarModelo(DefaultTableModel model, HashMap<Producto, Integer> listaProductos) {
 		
-		for(int i=0;i<listaProductos.size();i++) {
-
-			Object[] aux = {listaProductos.get(i).getId(), listaProductos.get(i).getNombre(), listaProductos.get(i).getPrecio(), 0};
+		for (HashMap.Entry<Producto, Integer> entry : listaProductos.entrySet()) {
+			Object[] aux = {entry.getKey().getId(), entry.getKey().getNombre(), entry.getKey().getPrecio(), entry.getValue()};
 			model.addRow(aux);
-			
 		}
 		
 	}
