@@ -60,26 +60,8 @@ public class FrameCamino extends JFrame {
 	private JButton btnNewButton_4;
 	private JComboBox origenCombo;
 	private JComboBox destinoCombo;
-
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameSucursal frame = new FrameSucursal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	private JLabel lblNewLabel_7;
+	private JTextField idText;
 	
 	public FrameCamino() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,48 +86,47 @@ public class FrameCamino extends JFrame {
 		gbc_lblNewLabel_5.gridy = 0;
 		contentPane.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
-		lblNewLabel = new JLabel("Sucursal origen");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 1;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-		
 		GestorSucursal gestorSucursal = GestorSucursal.getInstance();
 		
 		ArrayList<String> listaNombres = (ArrayList<String>) gestorSucursal.getAllSucursal().stream().map(s -> s.getNombre()).collect(Collectors.toList());
 		
 		listaNombres.add(0, "");
 		
+		lblNewLabel_7 = new JLabel("ID:");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
+		gbc_lblNewLabel_7.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_7.gridx = 1;
+		gbc_lblNewLabel_7.gridy = 1;
+		contentPane.add(lblNewLabel_7, gbc_lblNewLabel_7);
+		
+		idText = new JTextField();
+		idText.setColumns(10);
+		GridBagConstraints gbc_idText = new GridBagConstraints();
+		gbc_idText.insets = new Insets(0, 0, 5, 5);
+		gbc_idText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_idText.gridx = 2;
+		gbc_idText.gridy = 1;
+		contentPane.add(idText, gbc_idText);
+		
+		lblNewLabel = new JLabel("Sucursal origen");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 4;
+		gbc_lblNewLabel.gridy = 1;
+		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		
 		origenCombo = new JComboBox();
 		origenCombo.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
 		GridBagConstraints gbc_origenCombo = new GridBagConstraints();
 		gbc_origenCombo.insets = new Insets(0, 0, 5, 5);
 		gbc_origenCombo.fill = GridBagConstraints.HORIZONTAL;
-		gbc_origenCombo.gridx = 2;
+		gbc_origenCombo.gridx = 5;
 		gbc_origenCombo.gridy = 1;
 		contentPane.add(origenCombo, gbc_origenCombo);
-		
-		lblNewLabel_1 = new JLabel("Sucursal Destino");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 4;
-		gbc_lblNewLabel_1.gridy = 1;
-		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
-		destinoCombo = new JComboBox();
-		destinoCombo.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
-		GridBagConstraints gbc_destinoCombo = new GridBagConstraints();
-		gbc_destinoCombo.gridwidth = 2;
-		gbc_destinoCombo.insets = new Insets(0, 0, 5, 5);
-		gbc_destinoCombo.fill = GridBagConstraints.HORIZONTAL;
-		gbc_destinoCombo.gridx = 5;
-		gbc_destinoCombo.gridy = 1;
-		contentPane.add(destinoCombo, gbc_destinoCombo);
 		
 		lblNewLabel_2 = new JLabel("Tiempo de tránsito");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -165,29 +146,12 @@ public class FrameCamino extends JFrame {
 		contentPane.add(tiempoTransitoText, gbc_tiempoTransitoText);
 		tiempoTransitoText.setColumns(10);
 		
-		lblNewLabel_3 = new JLabel("Capacidad");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_3.gridx = 4;
-		gbc_lblNewLabel_3.gridy = 2;
-		contentPane.add(lblNewLabel_3, gbc_lblNewLabel_3);
-		
-		capacidadText = new JTextField();
-		GridBagConstraints gbc_capacidadText = new GridBagConstraints();
-		gbc_capacidadText.gridwidth = 2;
-		gbc_capacidadText.insets = new Insets(0, 0, 5, 5);
-		gbc_capacidadText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_capacidadText.gridx = 5;
-		gbc_capacidadText.gridy = 2;
-		contentPane.add(capacidadText, gbc_capacidadText);
-		capacidadText.setColumns(10);
-		
 		btnNewButton = new JButton("Buscar");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String id = (idText.getText());
 				
 				String nombreOrigen = origenCombo.getSelectedItem().toString();
 				
@@ -203,7 +167,7 @@ public class FrameCamino extends JFrame {
 				
 				try {
 					listaBusqueda = 
-							GestorRuta.getInstance().getRuta(nombreOrigen, nombreDestino, tiempoTransito, capacidad, operativa);
+							GestorRuta.getInstance().getRuta(id, nombreOrigen, nombreDestino, tiempoTransito, capacidad, operativa);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -220,13 +184,51 @@ public class FrameCamino extends JFrame {
 			}
 		});
 		
+		lblNewLabel_1 = new JLabel("Sucursal Destino");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 4;
+		gbc_lblNewLabel_1.gridy = 2;
+		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		destinoCombo = new JComboBox();
+		destinoCombo.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
+		GridBagConstraints gbc_destinoCombo = new GridBagConstraints();
+		gbc_destinoCombo.gridwidth = 2;
+		gbc_destinoCombo.insets = new Insets(0, 0, 5, 5);
+		gbc_destinoCombo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_destinoCombo.gridx = 5;
+		gbc_destinoCombo.gridy = 2;
+		contentPane.add(destinoCombo, gbc_destinoCombo);
+		
+		lblNewLabel_3 = new JLabel("Capacidad");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.gridx = 1;
+		gbc_lblNewLabel_3.gridy = 3;
+		contentPane.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		
+		capacidadText = new JTextField();
+		GridBagConstraints gbc_capacidadText = new GridBagConstraints();
+		gbc_capacidadText.gridwidth = 2;
+		gbc_capacidadText.insets = new Insets(0, 0, 5, 5);
+		gbc_capacidadText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_capacidadText.gridx = 2;
+		gbc_capacidadText.gridy = 3;
+		contentPane.add(capacidadText, gbc_capacidadText);
+		capacidadText.setColumns(10);
+		
 		
 		lblNewLabel_4 = new JLabel("Operativo");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_4.gridx = 1;
+		gbc_lblNewLabel_4.gridx = 4;
 		gbc_lblNewLabel_4.gridy = 3;
 		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
@@ -234,18 +236,18 @@ public class FrameCamino extends JFrame {
 		GridBagConstraints gbc_checkboxOperativa = new GridBagConstraints();
 		gbc_checkboxOperativa.anchor = GridBagConstraints.WEST;
 		gbc_checkboxOperativa.insets = new Insets(0, 0, 5, 5);
-		gbc_checkboxOperativa.gridx = 2;
+		gbc_checkboxOperativa.gridx = 5;
 		gbc_checkboxOperativa.gridy = 3;
 		contentPane.add(checkboxOperativa, gbc_checkboxOperativa);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridwidth = 3;
+		gbc_btnNewButton.gridwidth = 2;
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 5;
+		gbc_btnNewButton.gridx = 6;
 		gbc_btnNewButton.gridy = 3;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
 		
-		lblNewLabel_6 = new JLabel("Sucursal");
+		lblNewLabel_6 = new JLabel("Rutas");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.anchor = GridBagConstraints.SOUTHWEST;
@@ -266,7 +268,7 @@ public class FrameCamino extends JFrame {
 				
 				FrameCamino.this.setVisible(false);
 				
-				CrearSucursal crearSucursal= new CrearSucursal();
+				CrearRuta crearSucursal= new CrearRuta();
 				
 				try {
 					crearSucursal.setVisible(true);
@@ -291,26 +293,14 @@ public class FrameCamino extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(table.getSelectedRow() != -1) {
-				
-					FrameCamino.this.setVisible(false);
 					
 					GestorRuta gestorRuta = GestorRuta.getInstance();
 					
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					
-					boolean operativa = false;
+					EditarRuta editarRuta= new EditarRuta((int) model.getValueAt(table.getSelectedRow(), 0));
 					
-					if(model.getValueAt(table.getSelectedRow(),4).equals("Si")) operativa=true; else operativa=false;
-					
-					Ruta rutaSeleccionada =
-					gestorRuta.getRuta(
-							(String) model.getValueAt(table.getSelectedRow(),0), 
-							(String) model.getValueAt(table.getSelectedRow(),1), 
-							model.getValueAt(table.getSelectedRow(),2).toString(), 
-							String.valueOf(model.getValueAt(table.getSelectedRow(),3)),
-							operativa).get(0);
-					
-					EditarRuta editarRuta= new EditarRuta(rutaSeleccionada);
+					FrameCamino.this.setVisible(false);
 					
 					try {
 						editarRuta.setVisible(true);
@@ -336,7 +326,7 @@ public class FrameCamino extends JFrame {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					
 					try {
-						GestorSucursal.getInstance().deleteSucursal((int) model.getValueAt(filaSeleccionada, 0));
+						GestorRuta.getInstance().deleteRuta((int) model.getValueAt(filaSeleccionada, 0));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -367,7 +357,7 @@ public class FrameCamino extends JFrame {
 		gbc_scrollPane.gridy = 6;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
-		String[] columnNames = { "Sucursal origen", "Sucursal destino", "Tiempo de tránsito","Capacidad en kg", "Operativa"};
+		String[] columnNames = { "ID", "Sucursal origen", "Sucursal destino", "Tiempo de tránsito","Capacidad en kg", "Operativa"};
 		
 		ArrayList<Ruta> lista = new ArrayList<Ruta>();
 		
@@ -430,10 +420,14 @@ public class FrameCamino extends JFrame {
 	
 	private void cargarModelo(DefaultTableModel model, ArrayList<Ruta> lista) {
 		
+		Ruta r = null;
+		
 		for(int i=0;i<lista.size();i++) {
-
-			Object[] aux = {lista.get(i).getOrigen().getNombre(), lista.get(i).getDestino().getNombre(), lista.get(i).getTiempoTransito(), 
-					lista.get(i).getCapacidad(), lista.get(i).esOperativa()};
+			
+			r = lista.get(i);
+			
+			Object[] aux = {r.getId(), r.getOrigen().getNombre(), r.getDestino().getNombre(), r.getTiempoTransito(), 
+					r.getCapacidad(), r.esOperativa()};
 			
 			model.addRow(aux);
 			
