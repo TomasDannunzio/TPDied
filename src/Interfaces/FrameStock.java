@@ -45,8 +45,6 @@ public class FrameStock extends JFrame {
 	private JButton btnNewButton_1;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton;
@@ -121,70 +119,6 @@ public class FrameStock extends JFrame {
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
-		
-		
-		btnNewButton_3 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.gridx = 5;
-		gbc_btnNewButton_3.gridy = 5;
-		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
-		/* ESTE EDITARLF ES PARA CUANDO ESTÉ LO DE PRODUCTOLF ANCHI
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if(table.getSelectedRow() != -1) {
-				
-					FrameStock.this.setVisible(false);
-					
-					CrearOrden crearOrden= new CrearOrden((int) table.getModel().getValueAt(table.getSelectedRow(),0));
-					
-					try {
-						crearOrden.setVisible(true);
-					} catch(Exception er) {
-						er.printStackTrace();
-					}
-					
-					FrameStock.this.dispose();
-					
-				}
-				
-			}
-		});
-		*/
-		btnNewButton_2 = new JButton("Eliminar");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					
-				if(table.getSelectedRow() != -1) {
-				
-					int filaSeleccionada = table.getSelectedRow();
-					
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					
-					try {
-						GestorSucursal.getInstance().deleteSucursal((int) model.getValueAt(filaSeleccionada, 0));
-					} catch (Exception e1) {
-						
-						e1.printStackTrace();
-					}
-					
-					model.removeRow(filaSeleccionada);
-					
-					model.fireTableDataChanged();
-					
-				}
-			
-			}
-			
-		});
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 6;
-		gbc_btnNewButton_2.gridy = 5;
-		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 7;
@@ -247,10 +181,10 @@ public class FrameStock extends JFrame {
 				
 				FrameStock.this.setVisible(false);
 				
-				CrearSucursal crearSucursal= new CrearSucursal();
+				EditarStock editarStock= new EditarStock((int)table.getModel().getValueAt(table.getSelectedRow(),3),(int)table.getModel().getValueAt(table.getSelectedRow(),0), (String) table.getModel().getValueAt(table.getSelectedRow(),1), id ,nombreSucursal);
 				
 				try {
-					crearSucursal.setVisible(true);
+					editarStock.setVisible(true);
 				} catch(Exception er) {
 					er.printStackTrace();
 				}

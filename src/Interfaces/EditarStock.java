@@ -30,11 +30,11 @@ import javax.swing.JButton;
 public class EditarStock extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField horCeText;
+	private JLabel Label;
 	private JTextField textField;
 
 
-	public EditarStock(int i) {
+	public EditarStock(Integer cantidad, Integer producto_id, String nombre, int id, String nombreSucursal) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 420);
 		contentPane = new JPanel();
@@ -72,15 +72,6 @@ public class EditarStock extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		Sucursal s = null;
-		try {
-			s = GestorSucursal.getInstance().getSucursalById(i);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		Integer id = s.getId();
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -100,17 +91,16 @@ public class EditarStock extends JFrame {
 		gbc_lblNewLabel_1_3.gridy = 2;
 		panel.add(lblNewLabel_1_3, gbc_lblNewLabel_1_3);
 		
-		horCeText = new JTextField(s.getHorarioCierre().toString());
-		horCeText.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		horCeText.setColumns(10);
-		GridBagConstraints gbc_horCeText = new GridBagConstraints();
-		gbc_horCeText.insets = new Insets(0, 0, 5, 5);
-		gbc_horCeText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_horCeText.gridx = 1;
-		gbc_horCeText.gridy = 3;
-		panel.add(horCeText, gbc_horCeText);
+		Label = new JLabel(nombre);
+		Label.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_Label = new GridBagConstraints();
+		gbc_Label.insets = new Insets(0, 0, 5, 5);
+		gbc_Label.fill = GridBagConstraints.HORIZONTAL;
+		gbc_Label.gridx = 1;
+		gbc_Label.gridy = 3;
+		panel.add(Label, gbc_Label);
 		
-		textField = new JTextField();
+		textField = new JTextField(cantidad.toString());
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -131,16 +121,19 @@ public class EditarStock extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String nombre = "";
-				
-				GestorSucursal.getInstance().updateSucursal(id, nombre, LocalTime.parse(horarioApertura), LocalTime.parse(horarioCierre), operativa);
+				try {
+					GestorSucursal.getInstance().updateStock(producto_id , Integer.parseInt(textField.getText()));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				EditarStock.this.setVisible(false);
 				
-				FrameSucursal principal = new FrameSucursal();
+				FrameStock stock = new FrameStock(id, nombreSucursal);
 				
 				try {
-					principal.setVisible(true);
+					stock.setVisible(true);
 				} catch(Exception er) {
 					er.printStackTrace();
 				}
@@ -163,10 +156,10 @@ public class EditarStock extends JFrame {
 				
 				EditarStock.this.setVisible(false);
 				
-				FrameStock principal = new FrameStock();
+				FrameStock stock = new FrameStock(id, nombreSucursal);
 				
 				try {
-					principal.setVisible(true);
+					stock.setVisible(true);
 				} catch(Exception er) {
 					er.printStackTrace();
 				}
@@ -179,4 +172,4 @@ public class EditarStock extends JFrame {
 		
 	}
 
-}}}
+}
