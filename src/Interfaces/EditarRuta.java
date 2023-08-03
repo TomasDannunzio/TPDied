@@ -36,24 +36,11 @@ public class EditarRuta extends JFrame {
 	private JTextField tiempoTransitoText;
 	private JTextField capacidadText;
 
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditarSucursal frame = new EditarSucursal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public EditarRuta(Ruta r) {
+	public EditarRuta(int i) {
+		
+		Ruta r = GestorRuta.getInstance().getRutaById(i);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 420);
 		contentPane = new JPanel();

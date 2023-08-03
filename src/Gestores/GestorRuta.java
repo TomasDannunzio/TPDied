@@ -16,7 +16,7 @@ public class GestorRuta {
 		return gestor;
 	}
 	
-	public Ruta getRutaById(int i) throws Exception{
+	public Ruta getRutaById(int i) {
 		Ruta r = null;
         try {
             // below two lines are used for connectivity.
@@ -56,15 +56,15 @@ public class GestorRuta {
 	}
 	
 	
-		public void createRuta(Ruta r) throws Exception{
+		public void persistRuta(Ruta r) {
 		
 		try {
             // below two lines are used for connectivity.
 			Connection connection = ConexionBDD.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into ruta(id, origen, destino, tiempoTransito, capacidad ,operativa) values(?, ?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into ruta(ruta_id, origen_id, destino_id, tiempotransito, capacidad ,operativa) values(?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, r.getId());
 			preparedStatement.setInt(2, r.getOrigen().getId());
-			preparedStatement.setInt(3, r.getOrigen().getId());
+			preparedStatement.setInt(3, r.getDestino().getId());
 			preparedStatement.setTime(4, Time.valueOf(r.getTiempoTransito()));
 			preparedStatement.setFloat(5, r.getCapacidad());
 			preparedStatement.setBoolean(6, r.isOperativa());
@@ -119,7 +119,7 @@ public class GestorRuta {
 		    
 		}
 
-		public ArrayList<Ruta> getRuta(String nombreOrigen, String nombreDestino, String tiempoTransito,
+		public ArrayList<Ruta> getRuta(String id, String nombreOrigen, String nombreDestino, String tiempoTransito,
 				String capacidad, boolean operativa) {
 			// TODO Auto-generated method stub
 			
@@ -147,6 +147,7 @@ public class GestorRuta {
 	        
 	        String queryFinal = "select * from ruta where ";
 	        
+	        String idQuery= "ruta_id = " + id;
 	        String origenQuery = "origen_id = " + idOrigen;
 	        String destinoQuery = "destino_id = " + idDestino;
 	        String tiempoTransitoQuery = "tiempoTransito = \"" + tiempoTransito+"\"";
@@ -158,7 +159,8 @@ public class GestorRuta {
 	        
 	        boolean masDeUno = false;
 	        
-	        if(!idOrigen.equals("")) {queryFinal += origenQuery; masDeUno=true;}
+	        if(!id.equals("")) {queryFinal += idQuery; masDeUno=true;}
+	        if(!idOrigen.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + origenQuery; else queryFinal += destinoQuery; masDeUno=true;}
 	        if(!idDestino.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + destinoQuery; else queryFinal += destinoQuery; masDeUno=true;}
 	        if(!tiempoTransito.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + tiempoTransitoQuery; 
 	        else queryFinal += tiempoTransitoQuery; masDeUno=true;}
@@ -206,14 +208,13 @@ public class GestorRuta {
 				
 				Sucursal destino = gestorSucursal.getSucursalByNombre(nombreDestino);
 				
-		        // below two lines are used for connectivity.
 				Connection connection = ConexionBDD.getConnection();
 				
 				String finalQuery = "UPDATE RUTA SET ";
 				
-				String origenQuery = "origen_id= \"" + origen.getId() + "\"";
+				String origenQuery = "origen_id= " + origen.getId();
 				
-				String destinoQuery = ",destino_id = \"" + origen.getId() +"\"";
+				String destinoQuery = ",destino_id = " + destino.getId();
 				
 				String tiempoTransitoQuery = ",tiempoTransito = \"" + tiempoTransito.toString()+"\"";
 				
@@ -236,6 +237,43 @@ public class GestorRuta {
 				
 		        preparedStatement.close();
 		        connection.close();
+		    }
+		    catch (Exception exception) {
+		        System.out.println(exception);
+		    }
+			
+			
+		}
+
+		public void createRuta(int id, String origenString, String destinoString, LocalTime tiempoTransito, float capacidad,
+				boolean operativa) {
+			// TODO Auto-generated method stub
+			
+			GestorSucursal gestorSucursal = GestorSucursal.getInstance();
+			
+			Sucursal origen = gestorSucursal.getSucursalByNombre(origenString);
+			Sucursal destino = gestorSucursal.getSucursalByNombre(destinoString);
+			
+			Ruta r = new Ruta(id, origen, destino, tiempoTransito,capacidad,operativa);
+			
+			persistRuta(r);
+			
+		}
+
+		public void deleteRuta(int id) {
+			// TODO Auto-generated method stub
+			
+			try {
+				
+				Ruta r = getRutaById(id);
+
+				Connection connection = ConexionBDD.getConnection();
+		        PreparedStatement preparedStatement = connection.prepareStatement("Delete from ruta where ruta_id = "+id);
+				preparedStatement.executeUpdate();
+				
+		        preparedStatement.close();
+		        connection.close();
+		        
 		    }
 		    catch (Exception exception) {
 		        System.out.println(exception);

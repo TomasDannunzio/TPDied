@@ -3,6 +3,9 @@ package POJO;
 import java.time.LocalTime;
 
 public class Ruta {
+	
+	public static int idMaximo;
+	
 	private int ruta_id;
 	private Sucursal origen;
 	private Sucursal destino;
@@ -48,17 +51,29 @@ public class Ruta {
 		this.operativa = operativa;
 	}
 	
-	//Constructor
 	public Ruta(int id, Sucursal origen, Sucursal destino, LocalTime tiempoTransito, float capacidad,
 			boolean operativa) {
 		super();
-		this.ruta_id = id;
+		this.ruta_id=id;
 		this.origen = origen;
 		this.destino = destino;
 		this.tiempoTransito = tiempoTransito;
 		this.capacidad = capacidad;
 		this.operativa = operativa;
 	}
+	
+	//Constructor
+//	public Ruta(Sucursal origen, Sucursal destino, LocalTime tiempoTransito, float capacidad,
+//			boolean operativa) {
+//		super();
+//		idMaximo++;
+//		this.ruta_id=idMaximo;
+//		this.origen = origen;
+//		this.destino = destino;
+//		this.tiempoTransito = tiempoTransito;
+//		this.capacidad = capacidad;
+//		this.operativa = operativa;
+//	}
 	
 	public String esOperativa() {
 		// TODO Auto-generated method stub

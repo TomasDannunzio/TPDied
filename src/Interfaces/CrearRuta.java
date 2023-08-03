@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import App.FramePrincipal;
+import Gestores.GestorRuta;
 import Gestores.GestorSucursal;
 import POJO.Sucursal;
 
@@ -33,6 +34,7 @@ public class CrearRuta extends JFrame {
 	private JPanel contentPane;
 	private JTextField tiempoText;
 	private JTextField capacidadText;
+	private JTextField idText;
 
 	/**
 	 * Launch the application.
@@ -67,7 +69,7 @@ public class CrearRuta extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JLabel lblNewLabel = new JLabel("Nueva sucursal");
+		JLabel lblNewLabel = new JLabel("Nueva ruta");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -91,47 +93,48 @@ public class CrearRuta extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
+		GestorSucursal gestorSucursal = GestorSucursal.getInstance();
+		
+		ArrayList<String> listaNombres = (ArrayList<String>) gestorSucursal.getAllSucursal().stream().map(s -> s.getNombre()).collect(Collectors.toList());
+		
+		listaNombres.add(0,"");
+		
+		JLabel id = new JLabel("ID:");
+		id.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_id = new GridBagConstraints();
+		gbc_id.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_id.insets = new Insets(0, 0, 5, 5);
+		gbc_id.gridx = 1;
+		gbc_id.gridy = 0;
+		panel.add(id, gbc_id);
+		
 		JLabel lblNewLabel_1 = new JLabel("Sucursal Origen:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridx = 3;
 		gbc_lblNewLabel_1.gridy = 0;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Sucursal Destino:");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_lblNewLabel_1_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1_1.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_lblNewLabel_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1_1.gridx = 3;
-		gbc_lblNewLabel_1_1.gridy = 0;
-		panel.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
-		
-		GestorSucursal gestorSucursal = GestorSucursal.getInstance();
-		
-		ArrayList<String> listaNombres = (ArrayList<String>) gestorSucursal.getAllSucursal().stream().map(s -> s.getNombre()).collect(Collectors.toList());
-		
-		listaNombres.add("");
+		idText = new JTextField();
+		idText.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		idText.setColumns(10);
+		GridBagConstraints gbc_idText = new GridBagConstraints();
+		gbc_idText.insets = new Insets(0, 0, 5, 5);
+		gbc_idText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_idText.gridx = 1;
+		gbc_idText.gridy = 1;
+		panel.add(idText, gbc_idText);
 		
 		JComboBox origen = new JComboBox();
 		origen.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
 		GridBagConstraints gbc_origen = new GridBagConstraints();
 		gbc_origen.insets = new Insets(0, 0, 5, 5);
 		gbc_origen.fill = GridBagConstraints.HORIZONTAL;
-		gbc_origen.gridx = 1;
+		gbc_origen.gridx = 3;
 		gbc_origen.gridy = 1;
 		panel.add(origen, gbc_origen);
-		
-		JComboBox destino = new JComboBox();
-		destino.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
-		GridBagConstraints gbc_destino = new GridBagConstraints();
-		gbc_destino.insets = new Insets(0, 0, 5, 5);
-		gbc_destino.fill = GridBagConstraints.HORIZONTAL;
-		gbc_destino.gridx = 3;
-		gbc_destino.gridy = 1;
-		panel.add(destino, gbc_destino);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Tiempo de Transito:");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -142,14 +145,14 @@ public class CrearRuta extends JFrame {
 		gbc_lblNewLabel_1_2.gridy = 2;
 		panel.add(lblNewLabel_1_2, gbc_lblNewLabel_1_2);
 		
-		JLabel lblNewLabel_1_3 = new JLabel("Capacidad:");
-		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_lblNewLabel_1_3 = new GridBagConstraints();
-		gbc_lblNewLabel_1_3.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_lblNewLabel_1_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1_3.gridx = 3;
-		gbc_lblNewLabel_1_3.gridy = 2;
-		panel.add(lblNewLabel_1_3, gbc_lblNewLabel_1_3);
+		JLabel lblNewLabel_1_1 = new JLabel("Sucursal Destino:");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_lblNewLabel_1_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1_1.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblNewLabel_1_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1_1.gridx = 3;
+		gbc_lblNewLabel_1_1.gridy = 2;
+		panel.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
 		
 		tiempoText = new JTextField();
 		tiempoText.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -161,34 +164,52 @@ public class CrearRuta extends JFrame {
 		gbc_tiempoText.gridy = 3;
 		panel.add(tiempoText, gbc_tiempoText);
 		
-		capacidadText = new JTextField();
-		capacidadText.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		capacidadText.setColumns(10);
-		GridBagConstraints gbc_capacidadText = new GridBagConstraints();
-		gbc_capacidadText.insets = new Insets(0, 0, 5, 5);
-		gbc_capacidadText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_capacidadText.gridx = 3;
-		gbc_capacidadText.gridy = 3;
-		panel.add(capacidadText, gbc_capacidadText);
+		JComboBox destino = new JComboBox();
+		destino.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
+		GridBagConstraints gbc_destino = new GridBagConstraints();
+		gbc_destino.insets = new Insets(0, 0, 5, 5);
+		gbc_destino.fill = GridBagConstraints.HORIZONTAL;
+		gbc_destino.gridx = 3;
+		gbc_destino.gridy = 3;
+		panel.add(destino, gbc_destino);
+		
+		JLabel lblNewLabel_1_3 = new JLabel("Capacidad:");
+		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_lblNewLabel_1_3 = new GridBagConstraints();
+		gbc_lblNewLabel_1_3.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblNewLabel_1_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1_3.gridx = 1;
+		gbc_lblNewLabel_1_3.gridy = 4;
+		panel.add(lblNewLabel_1_3, gbc_lblNewLabel_1_3);
 		
 		JLabel lblNewLabel_2 = new JLabel("Está operativa?");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 1;
+		gbc_lblNewLabel_2.gridx = 3;
 		gbc_lblNewLabel_2.gridy = 4;
 		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"No", "Si"}));
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 5;
-		panel.add(comboBox, gbc_comboBox);
+		capacidadText = new JTextField();
+		capacidadText.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		capacidadText.setColumns(10);
+		GridBagConstraints gbc_capacidadText = new GridBagConstraints();
+		gbc_capacidadText.insets = new Insets(0, 0, 5, 5);
+		gbc_capacidadText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_capacidadText.gridx = 1;
+		gbc_capacidadText.gridy = 5;
+		panel.add(capacidadText, gbc_capacidadText);
+		
+		JComboBox operativaSeleccionada = new JComboBox();
+		operativaSeleccionada.setModel(new DefaultComboBoxModel(new String[] {"No", "Si"}));
+		operativaSeleccionada.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		GridBagConstraints gbc_operativaSeleccionada = new GridBagConstraints();
+		gbc_operativaSeleccionada.insets = new Insets(0, 0, 5, 5);
+		gbc_operativaSeleccionada.fill = GridBagConstraints.HORIZONTAL;
+		gbc_operativaSeleccionada.gridx = 3;
+		gbc_operativaSeleccionada.gridy = 5;
+		panel.add(operativaSeleccionada, gbc_operativaSeleccionada);
 		
 		JButton btnNewButton = new JButton("Crear");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -203,27 +224,30 @@ public class CrearRuta extends JFrame {
 				
 				try {
 				if(origen.getSelectedItem()==null || destino.getSelectedItem()==null || 
-						tiempoText.getText().equals("") || capacidadText.getText().equals("")) throw Exception;
+						tiempoText.getText().equals("") || capacidadText.getText().equals("")) throw new Exception();
 				} catch(Exception e1) {
 					System.out.println("Debe completar todos los campos");
 					
 				}
 				
+				String idString = idText.getText();
 				String origenString = origen.getSelectedItem().toString();
 				String destinoString = destino.getSelectedItem().toString();
+				
+				String capacidad = capacidadText.getText();
 				LocalTime tiempoTransito = LocalTime.parse(tiempoText.getText());
 				
 				boolean operativa = false;
 				
-				if(operativaSeleccionada.equals("Si")) operativa=true; else operativa=false;
+				if(operativaSeleccionada.getSelectedItem().equals("Si")) operativa=true; else operativa=false;
 				
 				try {
 					
-					GestorSucursal.getInstance().createSucursal(id, nombre, LocalTime.parse(horarioApertura), LocalTime.parse(horarioCierre), operativa);
+					GestorRuta.getInstance().createRuta(Integer.parseInt(idString), origenString, destinoString, tiempoTransito,Float.parseFloat(capacidad),operativa);
 					
 					CrearRuta.this.setVisible(false);
 					
-					FrameSucursal principal = new FrameSucursal();
+					FrameCamino principal = new FrameCamino();
 					
 					principal.setVisible(true);
 					
@@ -251,7 +275,7 @@ public class CrearRuta extends JFrame {
 				
 				CrearRuta.this.setVisible(false);
 				
-				FrameSucursal principal = new FrameSucursal();
+				FrameCamino principal = new FrameCamino();
 				
 				try {
 					principal.setVisible(true);
