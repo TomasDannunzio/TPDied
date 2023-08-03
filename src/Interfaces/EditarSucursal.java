@@ -35,23 +35,7 @@ public class EditarSucursal extends JFrame {
 	private JTextField nombreText;
 	private JTextField horCeText;
 
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditarSucursal frame = new EditarSucursal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public EditarSucursal(int i) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 420);
