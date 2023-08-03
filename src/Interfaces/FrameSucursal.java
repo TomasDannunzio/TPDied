@@ -33,6 +33,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JInternalFrame;
+import javax.swing.SwingConstants;
 
 public class FrameSucursal extends JFrame {
 
@@ -55,27 +56,9 @@ public class FrameSucursal extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
+	private JButton btnNewButton_5;
 
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameSucursal frame = new FrameSucursal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	
 	public FrameSucursal() {
 		setTitle("Gestionar sucursal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -245,7 +228,7 @@ public class FrameSucursal extends JFrame {
 		
 		btnNewButton_4 = new JButton("Crear");
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_4.gridx = 4;
 		gbc_btnNewButton_4.gridy = 5;
@@ -380,6 +363,36 @@ public class FrameSucursal extends JFrame {
 				}
 				
 				FrameSucursal.this.dispose();
+				
+			}
+		});
+		
+		btnNewButton_5 = new JButton("Ver stock");
+		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
+		gbc_btnNewButton_5.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_5.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_5.gridx = 1;
+		gbc_btnNewButton_5.gridy = 7;
+		contentPane.add(btnNewButton_5, gbc_btnNewButton_5);
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(table.getSelectedRow() != -1) {
+				
+					FrameSucursal.this.setVisible(false);
+					
+					FrameStock gestionarStock = new FrameStock((int) table.getModel().getValueAt(table.getSelectedRow(),0), (String) table.getModel().getValueAt(table.getSelectedRow(),1));
+					
+					try {
+						gestionarStock.setVisible(true);
+					} catch(Exception er) {
+						er.printStackTrace();
+					}
+					
+					FrameSucursal.this.dispose();
+					
+				}
 				
 			}
 		});
