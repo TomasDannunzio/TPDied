@@ -22,6 +22,8 @@ import javax.swing.table.TableModel;
 import App.FramePrincipal;
 import Gestores.GestorSucursal;
 import POJO.Sucursal;
+import POJO.Producto;
+import Gestores.GestorProducto;
 
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
@@ -48,7 +50,7 @@ public class FrameStock extends JFrame {
 	private JButton btnNewButton_6;
 	private JButton btnNewButton;
 	
-	public FrameStock() {
+	public FrameStock(int id, String nombreSucursal) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
 		contentPane = new JPanel();
@@ -56,20 +58,13 @@ public class FrameStock extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{50, 0, 290, 15, 89, 145, 145, 50, 50, 0};
-		gbl_contentPane.rowHeights = new int[]{50, 50, 50, 50, 25, 25, 0, 50, 0};
+		gbl_contentPane.columnWidths = new int[]{50, 50, 290, 15, 89, 145, 145, 50, 50, 0};
+		gbl_contentPane.rowHeights = new int[]{25, 50, 50, 50, 25, 25, 0, 50, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		btnNewButton = new JButton("Ver ordenes pendientes");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		String TextoPrincipal = new String();
-		
+		String TextoPrincipal = new String("ID : "+ id +" - Sucursal: " + nombreSucursal);
 		lblNewLabel_5 = new JLabel(TextoPrincipal);
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -77,7 +72,7 @@ public class FrameStock extends JFrame {
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 3;
-		gbc_lblNewLabel_5.gridy = 0;
+		gbc_lblNewLabel_5.gridy = 1;
 		contentPane.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		btnNewButton_6 = new JButton("Generar orden de provisión\r\n");
@@ -85,14 +80,36 @@ public class FrameStock extends JFrame {
 		gbc_btnNewButton_6.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton_6.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_6.gridx = 2;
-		gbc_btnNewButton_6.gridy = 1;
+		gbc_btnNewButton_6.gridy = 2;
 		contentPane.add(btnNewButton_6, gbc_btnNewButton_6);
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CrearOrden crearOrden = new CrearOrden(id,nombreSucursal);
+
+				FrameStock.this.setVisible(false);
+				
+				try {
+					crearOrden.setVisible(true);
+				} catch(Exception e2) {
+					e2.printStackTrace();
+				}
+				
+				FrameStock.this.dispose();
+			}
+		});
+
+		btnNewButton = new JButton("Ver ordenes pendientes");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridwidth = 2;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 5;
-		gbc_btnNewButton.gridy = 1;
+		gbc_btnNewButton.gridy = 2;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
 		
 		lblNewLabel_6 = new JLabel("Stock");
@@ -112,6 +129,7 @@ public class FrameStock extends JFrame {
 		gbc_btnNewButton_3.gridx = 5;
 		gbc_btnNewButton_3.gridy = 5;
 		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
+		/* ESTE EDITARLF ES PARA CUANDO ESTÉ LO DE PRODUCTOLF ANCHI
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -119,10 +137,10 @@ public class FrameStock extends JFrame {
 				
 					FrameStock.this.setVisible(false);
 					
-					EditarSucursal editarSucursal= new EditarSucursal((int) table.getModel().getValueAt(table.getSelectedRow(),0));
+					CrearOrden crearOrden= new CrearOrden((int) table.getModel().getValueAt(table.getSelectedRow(),0));
 					
 					try {
-						editarSucursal.setVisible(true);
+						crearOrden.setVisible(true);
 					} catch(Exception er) {
 						er.printStackTrace();
 					}
@@ -133,7 +151,7 @@ public class FrameStock extends JFrame {
 				
 			}
 		});
-		
+		*/
 		btnNewButton_2 = new JButton("Eliminar");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -147,7 +165,7 @@ public class FrameStock extends JFrame {
 					try {
 						GestorSucursal.getInstance().deleteSucursal((int) model.getValueAt(filaSeleccionada, 0));
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 					
@@ -176,21 +194,19 @@ public class FrameStock extends JFrame {
 		gbc_scrollPane.gridy = 6;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
-		String[] columnNames = { "ID", "Nombre", "Cantidad" ,"Precio"};
+		String[] columnNames = { "ID", "Nombre", "Precio" ,"Cantidad"};
 		
-		ArrayList<Sucursal> lista = new ArrayList<Sucursal>();
+		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
 		
 		try {
-			lista = GestorSucursal.getInstance().getAllSucursal();
+			listaProductos = GestorProducto.getInstance().getAllProducto();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+		
 			e1.printStackTrace();
 		}
 		
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
-		
-		cargarModelo(model,lista);
-		
+		cargarModelo(model,listaProductos);
 		table = new JTable(model);
 		table.setBackground(new Color(255, 255, 255));
 		table.setForeground(new Color(0, 0, 0));
@@ -199,7 +215,6 @@ public class FrameStock extends JFrame {
 		table.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		table.setToolTipText("");
 		scrollPane.setViewportView(table);
-		
 		btnNewButton_1 = new JButton("Volver");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -219,8 +234,8 @@ public class FrameStock extends JFrame {
 				
 			}
 		});
-		
 		btnNewButton_4 = new JButton("Agregar Producto");
+		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
@@ -244,8 +259,6 @@ public class FrameStock extends JFrame {
 				
 			}
 		});
-		
-		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.gridwidth = 2;
 		gbc_btnNewButton_1.gridx = 7;
@@ -255,18 +268,14 @@ public class FrameStock extends JFrame {
 		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
 		JLabel headerLabel = (JLabel) rendererFromHeader;
 		headerLabel.setHorizontalAlignment(JLabel.CENTER);
-		
-		
-		
+
 	}
 	
-	private void cargarModelo(DefaultTableModel model, ArrayList<Sucursal> lista) {
+	private void cargarModelo(DefaultTableModel model, ArrayList<Producto> listaProductos) {
 		
-		for(int i=0;i<lista.size();i++) {
+		for(int i=0;i<listaProductos.size();i++) {
 
-			Object[] aux = {lista.get(i).getId(), lista.get(i).getNombre(), lista.get(i).getHorarioApertura(), 
-					lista.get(i).getHorarioCierre(), lista.get(i).esOperativa()};
-			
+			Object[] aux = {listaProductos.get(i).getId(), listaProductos.get(i).getNombre(), listaProductos.get(i).getPrecio(), 0};
 			model.addRow(aux);
 			
 		}

@@ -143,8 +143,6 @@ public class FramePrincipal extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		String t = new String("<html>Buscar, Crear, Editar y Eliminar Sucursales en el sistema.<P>"
 				+ "<html> Generar Ordenes de provisión.<P>");
-		
-		
 		JLabel lblNewLabel_2 = new JLabel(t);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -279,8 +277,6 @@ public class FramePrincipal extends JFrame {
 		gbl_panel_3.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
-
-		
 		JButton btnNewButton_3 = new JButton("Producto\r\n");
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 		gbc_btnNewButton_3.weighty = 0.7;
@@ -309,7 +305,6 @@ public class FramePrincipal extends JFrame {
 			}
 		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
 		JLabel lblNewLabel_4 = new JLabel("Buscar, Crear, Editar y Eliminar productos en el sistema");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();

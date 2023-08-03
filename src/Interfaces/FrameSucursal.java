@@ -366,7 +366,7 @@ public class FrameSucursal extends JFrame {
 			}
 		});
 		
-		btnNewButton_5 = new JButton("Stock");
+		btnNewButton_5 = new JButton("Ver stock");
 		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
 		gbc_btnNewButton_5.anchor = GridBagConstraints.WEST;
@@ -374,6 +374,27 @@ public class FrameSucursal extends JFrame {
 		gbc_btnNewButton_5.gridx = 1;
 		gbc_btnNewButton_5.gridy = 7;
 		contentPane.add(btnNewButton_5, gbc_btnNewButton_5);
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(table.getSelectedRow() != -1) {
+				
+					FrameSucursal.this.setVisible(false);
+					
+					FrameStock gestionarStock = new FrameStock((int) table.getModel().getValueAt(table.getSelectedRow(),0), (String) table.getModel().getValueAt(table.getSelectedRow(),1));
+					
+					try {
+						gestionarStock.setVisible(true);
+					} catch(Exception er) {
+						er.printStackTrace();
+					}
+					
+					FrameSucursal.this.dispose();
+					
+				}
+				
+			}
+		});
 		
 		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

@@ -57,9 +57,10 @@ public class CrearOrden extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_4;
 	private JComboBox comboBox;
+	private JButton btnNewButton;
 
 	
-	public CrearOrden() {
+	public CrearOrden(int id, String nombre) {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
@@ -274,12 +275,37 @@ public class CrearOrden extends JFrame {
 			
 		});
 		
+		btnNewButton = new JButton("Volver");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridy = 7;
+		contentPane.add(btnNewButton, gbc_btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CrearOrden.this.setVisible(false);
+				
+				FrameStock gestionarStock = new FrameStock( id , nombre);
+ 
+				try {
+					gestionarStock.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				
+				CrearOrden.this.dispose();
+				
+			}
+		});
 		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.gridwidth = 2;
 		gbc_btnNewButton_1.gridx = 7;
 		gbc_btnNewButton_1.gridy = 7;
 		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+		
 		
 /*
 		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
