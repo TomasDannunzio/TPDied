@@ -3,6 +3,7 @@ package Gestores;
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import POJO.Producto;
 import POJO.Sucursal;
@@ -284,15 +285,15 @@ public ArrayList<Sucursal> getAllSucursal() {
     
 }
 
-public ArrayList<Producto> getStock() throws Exception{
+public HashMap<Producto, Integer> getStock(int id) throws Exception{
 	Producto p = null;
-	ArrayList<Producto> lista = new ArrayList<Producto>();
+	HashMap<Producto, Integer> lista = new HashMap<Producto, Integer>();
     try {
         // below two lines are used for connectivity.
     	Connection connection = ConexionBDD.getConnection();
         Statement statement;
         statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery( "select id_producto, cantidad from Stock where);
+        ResultSet resultSet = statement.executeQuery( "select p.*, s.cantidad from Stock S, producto P where P.producto_id = S.Producto_id AND S.sucursal_id "+id);
         
         while (resultSet.next()) {
             p = new Producto(resultSet.getInt("producto_id"),
@@ -300,7 +301,8 @@ public ArrayList<Producto> getStock() throws Exception{
          		   resultSet.getString("descripcion"),
          		   resultSet.getFloat("Precio"),
          		   resultSet.getFloat("Peso"));
-            lista.add(p);
+            		
+            lista.put(p, null);
          }
         
         resultSet.close();

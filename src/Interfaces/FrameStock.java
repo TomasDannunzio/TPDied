@@ -1,5 +1,5 @@
 package Interfaces;
-
+import Gestores.GestorSucursal;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -198,7 +198,7 @@ public class FrameStock extends JFrame {
 		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
 		
 		try {
-			listaProductos = GestorProducto.getInstance().getAllStock();
+			listaProductos = GestorSucursal.getInstance().getStock(id);
 		} catch (Exception e1) {
 		
 			e1.printStackTrace();
