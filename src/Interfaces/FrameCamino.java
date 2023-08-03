@@ -123,6 +123,7 @@ public class FrameCamino extends JFrame {
 		origenCombo = new JComboBox();
 		origenCombo.setModel(new DefaultComboBoxModel(listaNombres.toArray()));
 		GridBagConstraints gbc_origenCombo = new GridBagConstraints();
+		gbc_origenCombo.gridwidth = 2;
 		gbc_origenCombo.insets = new Insets(0, 0, 5, 5);
 		gbc_origenCombo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_origenCombo.gridx = 5;

@@ -81,7 +81,7 @@ public class GestorRuta {
 	}
 		
 		
-		public ArrayList<Ruta> getAllRuta() throws Exception{
+		public ArrayList<Ruta> getAllRuta(){
 			Ruta r = null;
 			ArrayList<Ruta> lista = new ArrayList<Ruta>();
 		    try {

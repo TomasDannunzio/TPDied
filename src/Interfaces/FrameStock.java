@@ -120,15 +120,6 @@ public class FrameStock extends JFrame {
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
-		
-		
-		btnNewButton_3 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.gridx = 5;
-		gbc_btnNewButton_3.gridy = 5;
-		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
 		/* ESTE EDITARLF ES PARA CUANDO ESTÉ LO DE PRODUCTOLF ANCHI
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -178,6 +169,15 @@ public class FrameStock extends JFrame {
 			}
 			
 		});
+		
+		
+		btnNewButton_3 = new JButton("Editar");
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_3.gridx = 4;
+		gbc_btnNewButton_3.gridy = 5;
+		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
