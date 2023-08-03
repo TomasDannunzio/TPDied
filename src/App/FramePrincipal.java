@@ -199,7 +199,7 @@ public class FramePrincipal extends JFrame {
 		gbc_panel_4.gridy = 1;
 		panel_1.add(panel_4, gbc_panel_4);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[]{234, 99, 0};
+		gbl_panel_4.columnWidths = new int[]{230, 99, 0};
 		gbl_panel_4.rowHeights = new int[]{33, 0};
 		gbl_panel_4.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_4.rowWeights = new double[]{1.0, Double.MIN_VALUE};
@@ -211,7 +211,6 @@ public class FramePrincipal extends JFrame {
 		gbc_btnNewButton_1.weightx = 1.0;
 		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNewButton_1.gridx = 0;
 		gbc_btnNewButton_1.gridy = 0;
 		panel_4.add(btnNewButton_1, gbc_btnNewButton_1);

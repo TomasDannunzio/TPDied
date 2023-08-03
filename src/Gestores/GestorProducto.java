@@ -1,10 +1,11 @@
 package Gestores;
 import POJO.Producto;
-import POJO.Producto;
+import POJO.Sucursal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -86,9 +87,10 @@ public static GestorProducto gestorProducto;
 			Float precio, Float peso) throws Exception {
 		
 		Producto p = new Producto(id,nombre,descripcion,precio,peso);
-
+		ArrayList <Sucursal> s = GestorSucursal.getInstance().getAllSucursal();
 		try {
 		persistProducto(p);
+		persistStock(p,s);
 		} catch(Exception e) {
 			//e.printStackTrace();
 			//System.out.println("No se ha podido persistir");
@@ -99,6 +101,34 @@ public static GestorProducto gestorProducto;
 
 	}
 	
+public void persistStock(Producto p, ArrayList<Sucursal> s ) throws Exception{
+		
+		try {
+			System.out.println("Entré");
+            // below two lines are used for connectivity.
+			Connection connection = ConexionBDD.getConnection();
+            
+            s.stream().forEach( t -> {
+				try {
+					PreparedStatement preparedStatement = connection.prepareStatement("insert into Stock(Producto_id, Sucursal_id, cantidad) values(?, ?, 0)");
+					preparedStatement.setInt(1, p.getId());
+					preparedStatement.setInt(2, t.getId());
+					preparedStatement.executeUpdate();
+		            preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+           
+            connection.close();
+        }
+        catch (Exception exception) {
+            //System.out.println(exception);
+        	throw new Exception();
+        }
+		
+	}
 	
 public void persistProducto(Producto p) throws Exception{
 		
@@ -112,9 +142,7 @@ public void persistProducto(Producto p) throws Exception{
 			preparedStatement.setString(3, p.getDescripcion());
 			preparedStatement.setFloat(4, p.getPrecio());
 			preparedStatement.setFloat(5, p.getPeso());
-            
-			preparedStatement.executeUpdate();
-			
+            preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
         }
@@ -131,7 +159,6 @@ public void deleteProducto(int id) throws Exception{
 		Connection connection = ConexionBDD.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("Delete from Producto where producto_id= "+id);
 		preparedStatement.executeUpdate();
-		
         preparedStatement.close();
         connection.close();
     }
@@ -253,4 +280,5 @@ public ArrayList<Producto> getAllProducto() throws Exception{
     return lista;
     
 }
+
 }

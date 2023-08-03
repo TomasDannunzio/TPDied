@@ -184,7 +184,6 @@ public class FrameStock extends JFrame {
 		gbc_btnNewButton_2.gridx = 6;
 		gbc_btnNewButton_2.gridy = 5;
 		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 7;
@@ -199,12 +198,12 @@ public class FrameStock extends JFrame {
 		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
 		
 		try {
-			listaProductos = GestorProducto.getInstance().getAllProducto();
+			listaProductos = GestorProducto.getInstance().getAllStock();
 		} catch (Exception e1) {
 		
 			e1.printStackTrace();
 		}
-		
+
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 		cargarModelo(model,listaProductos);
 		table = new JTable(model);
@@ -234,7 +233,7 @@ public class FrameStock extends JFrame {
 				
 			}
 		});
-		btnNewButton_4 = new JButton("Agregar Producto");
+		btnNewButton_4 = new JButton("Editar stock");
 		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;

@@ -4,6 +4,7 @@ import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import POJO.Producto;
 import POJO.Sucursal;
 
 public class GestorSucursal {
@@ -283,5 +284,35 @@ public ArrayList<Sucursal> getAllSucursal() {
     
 }
 
+public ArrayList<Producto> getStock() throws Exception{
+	Producto p = null;
+	ArrayList<Producto> lista = new ArrayList<Producto>();
+    try {
+        // below two lines are used for connectivity.
+    	Connection connection = ConexionBDD.getConnection();
+        Statement statement;
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery( "select id_producto, cantidad from Stock where);
+        
+        while (resultSet.next()) {
+            p = new Producto(resultSet.getInt("producto_id"),
+         		   resultSet.getString("nombre"),
+         		   resultSet.getString("descripcion"),
+         		   resultSet.getFloat("Precio"),
+         		   resultSet.getFloat("Peso"));
+            lista.add(p);
+         }
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+    
+    return lista;
+    
+}
 
 }
