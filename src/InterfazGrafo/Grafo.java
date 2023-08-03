@@ -52,7 +52,8 @@ public class Grafo extends JFrame {
 		
 		for(Ruta r : listaRuta) {
 			
-			grafo.addEdge(r.getOrigen().getNombre(),r.getDestino().getNombre(),"ID:"+r.getId()+"-Capacidad:"+r.getCapacidad());
+			grafo.addEdge(r.getOrigen().getNombre(),r.getDestino().getNombre(),"ID:"+r.getId()+"\nCapacidad:"+r.getCapacidad
+					()+"\nTiempo de transito:"+r.getTiempoTransito());
 			
 			}
 		

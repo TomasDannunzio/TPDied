@@ -47,6 +47,10 @@ public class FramePrincipal extends JFrame {
 					FramePrincipal frame = new FramePrincipal();
 					frame.setVisible(true);
 					
+					Grafo grafo = new Grafo();
+					
+					grafo.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

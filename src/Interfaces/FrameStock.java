@@ -48,6 +48,8 @@ public class FrameStock extends JFrame {
 	private JButton btnNewButton_4;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
 	
 	public FrameStock(int id, String nombreSucursal) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,7 +121,7 @@ public class FrameStock extends JFrame {
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
-<<<<<<< HEAD
+
 		/* ESTE EDITARLF ES PARA CUANDO ESTÉ LO DE PRODUCTOLF ANCHI
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,8 +187,7 @@ public class FrameStock extends JFrame {
 		gbc_btnNewButton_2.gridy = 5;
 		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
 		
-=======
->>>>>>> 78b5088babe01f4bba90d2f0d6b3a37c7210287d
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 7;
