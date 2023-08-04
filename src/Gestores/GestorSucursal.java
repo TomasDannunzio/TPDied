@@ -1,9 +1,9 @@
 package Gestores;
 import java.sql.*;
 import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import POJO.Producto;
 import POJO.Sucursal;
 
@@ -352,6 +352,26 @@ public HashMap<Producto, Integer> getStock(int id) throws Exception{
     
     return lista;
     
+}
+
+
+public void createOrden(int id, LocalDate fecha, String destino, LocalTime TiempoMax ) {
+	try {
+		Connection connection = ConexionBDD.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement("insert into orden values(?, ?, ?, ?)");
+		preparedStatement.setInt(1, id);
+		preparedStatement.setDate(2, Date.valueOf(fecha));
+		preparedStatement.setInt(3, this.getSucursalByNombre(destino).getId());
+		preparedStatement.setTime(4, Time.valueOf(TiempoMax));
+		preparedStatement.executeUpdate();
+	    preparedStatement.close();
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
 }
 
 }

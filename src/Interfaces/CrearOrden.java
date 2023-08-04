@@ -1,13 +1,15 @@
 package Interfaces;
 
 import java.awt.EventQueue;
-
+import java.time.LocalTime;
+import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Window.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,10 +24,12 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import App.FramePrincipal;
+import Gestores.ConexionBDD;
 import Gestores.GestorProducto;
 import Gestores.GestorSucursal;
 import POJO.Sucursal;
 import POJO.Producto;
+
 
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
@@ -34,6 +38,8 @@ import java.awt.Font;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
@@ -117,7 +123,7 @@ public class CrearOrden extends JFrame {
 		gbc_lblNewLabel_1.gridy = 1;
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		textField_1 = new JTextField("dd/mm/yyyy");
+		textField_1 = new JTextField("yyyy-mm-dd");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.gridwidth = 4;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -295,9 +301,11 @@ public class CrearOrden extends JFrame {
 		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				GestorSucursal gestor = GestorSucursal.getInstance();
 				
+
 				int idSucursalPedir = Integer.parseInt(textField.getText());
-				
+				gestor.createOrden(idSucursalPedir, LocalDate.parse(textField_1.getText()), comboBox.getSelectedItem().toString(), LocalTime.parse(textField_3.getText()));
 				try {
 					
 					String[] columnNames = { "ID", "Producto", "Precio", "Cantidad"};
