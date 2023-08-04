@@ -2,8 +2,8 @@ package POJO;
 
 public enum Estado {
 	
-	INICIADA,
 	PENDIENTE,
+	EN_PROCESO,
 	TERMINADA;
 	
 }
