@@ -125,8 +125,6 @@ public class GestorRuta {
 			
 			Ruta r = null;
 			
-			System.out.println(nombreOrigen);
-			
 			GestorSucursal gestorSucursal = GestorSucursal.getInstance();
 			
 			String idOrigen = "";
@@ -160,7 +158,7 @@ public class GestorRuta {
 	        boolean masDeUno = false;
 	        
 	        if(!id.equals("")) {queryFinal += idQuery; masDeUno=true;}
-	        if(!idOrigen.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + origenQuery; else queryFinal += destinoQuery; masDeUno=true;}
+	        if(!idOrigen.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + origenQuery; else queryFinal += origenQuery; masDeUno=true;}
 	        if(!idDestino.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + destinoQuery; else queryFinal += destinoQuery; masDeUno=true;}
 	        if(!tiempoTransito.equals("")) {if(masDeUno) queryFinal = queryFinal + " AND " + tiempoTransitoQuery; 
 	        else queryFinal += tiempoTransitoQuery; masDeUno=true;}
@@ -169,6 +167,8 @@ public class GestorRuta {
 	        if(masDeUno) queryFinal = queryFinal + " AND " + operativaQuery; else queryFinal += operativaQuery;
 	        
 	        queryFinal += ";";
+	        
+	        System.out.println(queryFinal);
 	        
 	        ResultSet resultSet = statement.executeQuery(queryFinal);
 	        
