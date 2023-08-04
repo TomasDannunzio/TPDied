@@ -1,4 +1,5 @@
 package POJO;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ public class Orden {
 	private Sucursal Destino;
 	private LocalTime TiempoMax;
 	private HashMap<Producto,Integer> listaProductos;
+	private Estado estado;
 	
 	//Constructores
 	
@@ -20,6 +22,7 @@ public class Orden {
 		TiempoMax = tiempoMax;
 		this.listaProductos = listaProductos;
 	}
+	
 	//Getters and Setters
 	
 	public LocalDate getFechaOrden() {

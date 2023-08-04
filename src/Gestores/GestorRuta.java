@@ -168,8 +168,6 @@ public class GestorRuta {
 	        
 	        queryFinal += ";";
 	        
-	        System.out.println(queryFinal);
-	        
 	        ResultSet resultSet = statement.executeQuery(queryFinal);
 	        
 	        while (resultSet.next()) {
