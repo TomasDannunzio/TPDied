@@ -47,9 +47,7 @@ public class FramePrincipal extends JFrame {
 					FramePrincipal frame = new FramePrincipal();
 					frame.setVisible(true);
 					
-					Grafo grafo = new Grafo();
 					
-					grafo.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -319,6 +317,21 @@ public class FramePrincipal extends JFrame {
 		gbc_lblNewLabel_4.gridx = 1;
 		gbc_lblNewLabel_4.gridy = 0;
 		panel_3.add(lblNewLabel_4, gbc_lblNewLabel_4);
+		
+		JButton btnNewButton_2 = new JButton("Ver Mapa");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Grafo grafo = new Grafo();
+				
+				grafo.setVisible(true);
+				grafo.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_2.gridx = 3;
+		gbc_btnNewButton_2.gridy = 9;
+		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
 	}
  //
 }

@@ -35,7 +35,7 @@ public class Grafo extends JFrame {
 	private static final long serialVersionUID = 7377491412068818648L;
 	
 	public Grafo() {
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GestorSucursal gestorSucursal = GestorSucursal.getInstance();
 		GestorRuta gestorRuta = GestorRuta.getInstance();
 		
@@ -112,7 +112,7 @@ public class Grafo extends JFrame {
         getContentPane().add(graphComponent, BorderLayout.CENTER);
         
         pack();
-
+        
 	
 	}
 	

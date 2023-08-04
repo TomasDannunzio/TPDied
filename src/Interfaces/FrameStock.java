@@ -48,8 +48,6 @@ public class FrameStock extends JFrame {
 	private JButton btnNewButton_4;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
 	
 	public FrameStock(int id, String nombreSucursal) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,9 +57,9 @@ public class FrameStock extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{50, 50, 290, 15, 89, 145, 145, 50, 50, 0};
+		gbl_contentPane.columnWidths = new int[]{50, 50, 145, 145, 15, 89, 145, 145, 50, 50, 0};
 		gbl_contentPane.rowHeights = new int[]{25, 50, 50, 50, 25, 25, 0, 50, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -69,8 +67,7 @@ public class FrameStock extends JFrame {
 		lblNewLabel_5 = new JLabel(TextoPrincipal);
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
-		gbc_lblNewLabel_5.gridwidth = 2;
-		gbc_lblNewLabel_5.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblNewLabel_5.gridwidth = 4;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 3;
 		gbc_lblNewLabel_5.gridy = 1;
@@ -78,10 +75,11 @@ public class FrameStock extends JFrame {
 		
 		btnNewButton_6 = new JButton("Generar orden de provisión\r\n");
 		GridBagConstraints gbc_btnNewButton_6 = new GridBagConstraints();
+		gbc_btnNewButton_6.gridwidth = 2;
 		gbc_btnNewButton_6.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton_6.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_6.gridx = 2;
-		gbc_btnNewButton_6.gridy = 2;
+		gbc_btnNewButton_6.gridy = 3;
 		contentPane.add(btnNewButton_6, gbc_btnNewButton_6);
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,19 +97,19 @@ public class FrameStock extends JFrame {
 				FrameStock.this.dispose();
 			}
 		});
-
-		btnNewButton = new JButton("Ver ordenes pendientes");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.gridwidth = 2;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 5;
-		gbc_btnNewButton.gridy = 2;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		
+				btnNewButton = new JButton("Ver ordenes pendientes");
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
+				GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+				gbc_btnNewButton.fill = GridBagConstraints.BOTH;
+				gbc_btnNewButton.gridwidth = 2;
+				gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNewButton.gridx = 6;
+				gbc_btnNewButton.gridy = 3;
+				contentPane.add(btnNewButton, gbc_btnNewButton);
 		
 		lblNewLabel_6 = new JLabel("Stock");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -121,76 +119,11 @@ public class FrameStock extends JFrame {
 		gbc_lblNewLabel_6.gridx = 1;
 		gbc_lblNewLabel_6.gridy = 5;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
-
-		/* ESTE EDITARLF ES PARA CUANDO ESTÉ LO DE PRODUCTOLF ANCHI
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if(table.getSelectedRow() != -1) {
-				
-					FrameStock.this.setVisible(false);
-					
-					CrearOrden crearOrden= new CrearOrden((int) table.getModel().getValueAt(table.getSelectedRow(),0));
-					
-					try {
-						crearOrden.setVisible(true);
-					} catch(Exception er) {
-						er.printStackTrace();
-					}
-					
-					FrameStock.this.dispose();
-					
-				}
-				
-			}
-		});
-		*/
-		btnNewButton_2 = new JButton("Eliminar");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					
-				if(table.getSelectedRow() != -1) {
-				
-					int filaSeleccionada = table.getSelectedRow();
-					
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					
-					try {
-						GestorSucursal.getInstance().deleteSucursal((int) model.getValueAt(filaSeleccionada, 0));
-					} catch (Exception e1) {
-						
-						e1.printStackTrace();
-					}
-					
-					model.removeRow(filaSeleccionada);
-					
-					model.fireTableDataChanged();
-					
-				}
-			
-			}
-			
-		});
 		
 		
-		btnNewButton_3 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.gridx = 4;
-		gbc_btnNewButton_3.gridy = 5;
-		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 6;
-		gbc_btnNewButton_2.gridy = 5;
-		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
-		
-
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 7;
+		gbc_scrollPane.gridwidth = 8;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
@@ -218,6 +151,7 @@ public class FrameStock extends JFrame {
 		table.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		table.setToolTipText("");
 		scrollPane.setViewportView(table);
+		
 		btnNewButton_1 = new JButton("Volver");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -264,7 +198,7 @@ public class FrameStock extends JFrame {
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.gridwidth = 2;
-		gbc_btnNewButton_1.gridx = 7;
+		gbc_btnNewButton_1.gridx = 8;
 		gbc_btnNewButton_1.gridy = 7;
 		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
 
