@@ -21,6 +21,8 @@ public class Orden {
 		Destino = destino;
 		TiempoMax = tiempoMax;
 		this.listaProductos = listaProductos;
+		this.estado= Estado.PENDIENTE;
+
 	}
 	
 	//Getters and Setters

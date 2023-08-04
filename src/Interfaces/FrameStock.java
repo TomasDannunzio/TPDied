@@ -103,6 +103,7 @@ public class FrameStock extends JFrame {
 				btnNewButton = new JButton("Ver ordenes pendientes");
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						showMessageDialog(null,"No llegamos a implementar esta funcionalidad :C");
 					}
 				});
 				GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
