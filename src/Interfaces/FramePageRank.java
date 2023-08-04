@@ -64,13 +64,13 @@ public class FramePageRank extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		Grafo graph = new Grafo();
-		PageRank<String, String> pageRank = new PageRank(graph.getGrafo());
+		PageRank<String, Float> pageRank = new PageRank(graph.getGrafo());
 		
 		setContentPane(contentPane);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane);
-		String[] columnNames = { "Sucursal", "Valor"};
+		String[] columnNames = { "Sucursal", "Value"};
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 		cargarModelo(model,pageRank.getScores());
 		table = new JTable(model);

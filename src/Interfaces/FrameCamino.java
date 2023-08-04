@@ -62,6 +62,7 @@ public class FrameCamino extends JFrame {
 	private JComboBox destinoCombo;
 	private JLabel lblNewLabel_7;
 	private JTextField idText;
+	private JButton btnNewButton_5;
 	
 	public FrameCamino() {
 		setTitle("Gestionar caminos");
@@ -402,6 +403,27 @@ public class FrameCamino extends JFrame {
 				
 			}
 		});
+		
+		btnNewButton_5 = new JButton("PageRank");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				FramePageRank pageRank= new FramePageRank();
+				
+				try {
+					pageRank.setVisible(true);
+				} catch(Exception er) {
+					er.printStackTrace();
+				}
+				pageRank.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			}
+		});
+		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
+		gbc_btnNewButton_5.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_5.gridx = 4;
+		gbc_btnNewButton_5.gridy = 7;
+		contentPane.add(btnNewButton_5, gbc_btnNewButton_5);
 		
 		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
