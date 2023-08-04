@@ -26,7 +26,7 @@ public class GestorSucursal {
             Statement statement;
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                "select * from sucursal where sucursal_id ="+i+"");
+                "select * from sucursal where sucursal_id ="+i+" order");
        
             while (resultSet.next()) {
                s = new Sucursal(resultSet.getInt("sucursal_id"),
@@ -149,7 +149,7 @@ public Sucursal getSucursalByNombre(String nom){
         
         try {
         resultSet = statement.executeQuery(
-            "select * from sucursal where nombre = \"" + nom +"\"");
+            "select * from sucursal where nombre = \"" + nom +"\"Order by sucursal_id");
         } catch(Exception e) {
         	e.printStackTrace();
         }
@@ -206,7 +206,7 @@ public ArrayList<Sucursal> getSucursal(Integer id, String nom, String horarioApe
 	        else queryFinal += horarioCierreQuery; sum++;}
 	        if(sum>0) queryFinal = queryFinal + " AND " + operativaQuery; else queryFinal += operativaQuery;
 	        
-	        queryFinal += ";";
+	        queryFinal += "order by sucursal_id;";
 	        
 	        ResultSet resultSet = statement.executeQuery(queryFinal);
 	        
@@ -284,7 +284,7 @@ public ArrayList<Sucursal> getAllSucursal() {
         
         try {
         	resultSet = statement.executeQuery(
-            "select * from sucursal");
+            "select * from sucursal order by sucursal_id");
         } catch(Exception e) {
         	e.printStackTrace();
         }
@@ -374,4 +374,67 @@ public void createOrden(int id, LocalDate fecha, String destino, LocalTime Tiemp
 	
 }
 
+public void addProductToOrder(int id, int orden, int cantidad) {
+	Connection connection;
+	try {
+		connection = ConexionBDD.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO productosOrden Values(?, ?, ?)");
+		preparedStatement.setInt(1, orden);
+		preparedStatement.setInt(2, id);
+		
+		preparedStatement.setInt(3, cantidad);
+		preparedStatement.executeUpdate();
+	    preparedStatement.close();
+
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
+public void deleteProductFromOrder(int id, int orden) {
+	try {
+        // below two lines are used for connectivity.
+		Connection connection = ConexionBDD.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("Delete from ProductosOrden where producto_id = "+id+" AND orden_id="+orden);
+		preparedStatement.executeUpdate();
+		
+        preparedStatement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+}
+public HashMap<Producto, Integer> getProductosOrden(int id) throws Exception{
+	Producto p = null;
+	HashMap<Producto, Integer> lista = new HashMap<Producto, Integer>();
+    try {
+        // below two lines are used for connectivity.
+    	Connection connection = ConexionBDD.getConnection();
+        Statement statement;
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery( "select p.*, Ps.cantidad from productosOrden PS, producto P where P.producto_id = PS.Producto_id AND PS.orden_id ="+ id);
+        ;
+        while (resultSet.next()) {
+            p = new Producto(resultSet.getInt("producto_id"),
+         		   resultSet.getString("nombre"),
+         		   resultSet.getString("descripcion"),
+         		   resultSet.getFloat("Precio"),
+         		   resultSet.getFloat("Peso"));
+            Integer cant = resultSet.getInt("cantidad");	
+            lista.put(p, cant);
+         }
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+    catch (Exception exception) {
+        System.out.println(exception);
+    }
+    
+    return lista;
+    
+}
 }

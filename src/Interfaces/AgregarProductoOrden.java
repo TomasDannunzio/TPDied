@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import App.FramePrincipal;
 import Gestores.GestorProducto;
+import Gestores.GestorSucursal;
 import POJO.Producto;
 
 import java.awt.GridBagLayout;
@@ -34,11 +35,9 @@ import java.awt.Color;
 public class AgregarProductoOrden extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField_1;
 	private JTextField textField_3;
 
-	/*
-	 * Launch the application.
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -52,9 +51,7 @@ public class AgregarProductoOrden extends JFrame {
 		});
 	}
 
-	 * Create the frame.
-	 */
-	public AgregarProductoOrden() {
+	public AgregarProductoOrden(CrearOrden  Pantalla, int id_producto ,int id_orden) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 357);
 		contentPane = new JPanel();
@@ -93,7 +90,7 @@ public class AgregarProductoOrden extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblNewLabel_1 = new JLabel("ID:");
+		JLabel lblNewLabel_1 = new JLabel("Producto:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.SOUTHWEST;
@@ -102,7 +99,7 @@ public class AgregarProductoOrden extends JFrame {
 		gbc_lblNewLabel_1.gridy = 1;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Nombre:");
+		JLabel lblNewLabel_1_1 = new JLabel("Cantidad");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblNewLabel_1_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1_1.anchor = GridBagConstraints.SOUTHWEST;
@@ -110,16 +107,6 @@ public class AgregarProductoOrden extends JFrame {
 		gbc_lblNewLabel_1_1.gridx = 3;
 		gbc_lblNewLabel_1_1.gridy = 1;
 		panel.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_1.setColumns(10);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 2;
-		panel.add(textField_1, gbc_textField_1);
 		
 		textField_3 = new JTextField();
 		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -134,24 +121,10 @@ public class AgregarProductoOrden extends JFrame {
 		JButton btnNewButton = new JButton("Agregar\r\n");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String idString = textField_1.getText();
-				Integer id =0;
-				
-				if(!idString.equals("")) id = Integer.parseInt(idString); else id = null;
-				
-				String nombre = textField_3.getText();
-				
-				ArrayList<Producto> listaBusqueda = null;
-				
-				try {
-					listaBusqueda = 
-							GestorProducto.getInstance().getProducto(id, nombre);
-				} catch (Exception e1) {
-					
-					e1.printStackTrace();
-				}
-
+				GestorSucursal gestor = GestorSucursal.getInstance();
+				gestor.addProductToOrder(id_producto, id_orden, Integer.parseInt(textField_3.getText()) );
+				Pantalla.actualizarTabla();
+				AgregarProductoOrden.this.dispose();
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));

@@ -52,6 +52,7 @@ public class CrearOrden extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JTable table2;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_3;
@@ -80,7 +81,7 @@ public class CrearOrden extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{50, 0, 100, 100, 100, 15, 150, 100, 77, 77, 75, 50, 0};
+		gbl_contentPane.columnWidths = new int[]{50, 0, 100, 100, 100, 15, 150, 81, 77, 77, 75, 50, 0};
 		gbl_contentPane.rowHeights = new int[]{50, 50, 50, 50, 25, 25, 0, 50, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -188,30 +189,7 @@ public class CrearOrden extends JFrame {
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
 
 		
-		btnNewButton_4 = new JButton("Agregar");
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4.gridx = 4;
-		gbc_btnNewButton_4.gridy = 5;
-		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			//	CrearOrden.this.setVisible(false);
-				
-				AgregarProductoOrden agregarProducto= new AgregarProductoOrden();
-				
-				try {
-					agregarProducto.setVisible(true);
-				} catch(Exception er) {
-					er.printStackTrace();
-				}
-				
-			//	CrearOrden.this.dispose();
-				
-			}
-		});
+		
 		
 		lblNewLabel_4 = new JLabel("Productos en orden");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -224,6 +202,14 @@ public class CrearOrden extends JFrame {
 		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
 		btnNewButton_2 = new JButton("Eliminar");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GestorSucursal gestor =GestorSucursal.getInstance();
+				gestor.deleteProductFromOrder((int)table.getModel().getValueAt(table.getSelectedRow(),0), Integer.parseInt(textField.getText()));
+				CrearOrden.this.actualizarTabla();
+				CrearOrden.this.repaint();
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.gridwidth = 2;
 		gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
@@ -337,9 +323,30 @@ public class CrearOrden extends JFrame {
 				}
 			
 			}});
-		
+		btnNewButton_4 = new JButton("Agregar");
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_4.gridx = 4;
+		gbc_btnNewButton_4.gridy = 5;
+		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AgregarProductoOrden agregarProducto= new AgregarProductoOrden(CrearOrden.this, (int)table.getModel().getValueAt(table.getSelectedRow(),0), Integer.parseInt(textField.getText()));
+				agregarProducto.setVisible(true);
+				
+				
+			
+			//	CrearOrden.this.dispose();
+				
+			}
+		});
 		
 	}
+	
+	
+	
 	
 	private void cargarModelo(DefaultTableModel model, HashMap<Producto, Integer> listaProductos){
 		for (HashMap.Entry<Producto, Integer> entry : listaProductos.entrySet()) {
@@ -348,4 +355,30 @@ public class CrearOrden extends JFrame {
 		}
 		
 	}
+	
+	public void actualizarTabla(){
+		String[] columnNames = { "ID", "Producto", "Precio", "Cantidad"};
+		
+		HashMap<Producto, Integer> listaProductos = new HashMap<Producto, Integer>();
+		
+		try {
+			listaProductos = GestorSucursal.getInstance().getProductosOrden(Integer.parseInt(textField.getText()));
+		} catch (Exception e1) {
+		
+			e1.printStackTrace();
+		}
+
+		DefaultTableModel model = new DefaultTableModel(null, columnNames);
+		cargarModelo(model,listaProductos);
+		table2 = new JTable(model);
+		table2.setBackground(new Color(255, 255, 255));
+		table2.setForeground(new Color(0, 0, 0));
+		table2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table2.setBorder(new LineBorder(new Color(0, 0, 0), 0));
+		table2.setToolTipText("");
+		scrollPane_1.setViewportView(table2);
+	}
+	
 }
+	
