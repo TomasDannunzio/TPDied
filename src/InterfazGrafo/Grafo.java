@@ -115,5 +115,27 @@ public class Grafo extends JFrame {
         
 	
 	}
-	
+	public SimpleDirectedWeightedGraph<String,String> getGrafo(){
+		GestorSucursal gestorSucursal = GestorSucursal.getInstance();
+		GestorRuta gestorRuta = GestorRuta.getInstance();
+		
+		ArrayList<Sucursal> listaSucursal = gestorSucursal.getAllSucursal();
+		ArrayList<Ruta> listaRuta = gestorRuta.getAllRuta();
+		
+		SimpleDirectedWeightedGraph<String,String> grafo = new SimpleDirectedWeightedGraph<String,String>(String.class);
+		
+		for(Sucursal s : listaSucursal) {
+			
+			grafo.addVertex(s.getNombre());
+			
+		}
+		
+		for(Ruta r : listaRuta) {
+			
+			grafo.addEdge(r.getOrigen().getNombre(),r.getDestino().getNombre(),"ID:"+r.getId()+"\nCapacidad:"+r.getCapacidad
+					()+"\nTiempo de transito:"+r.getTiempoTransito());
+			
+			}
+		return grafo;
+	}
 }

@@ -26,7 +26,7 @@ public class GestorSucursal {
             Statement statement;
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                "select * from sucursal where sucursal_id ="+i+" order");
+                "select * from sucursal where sucursal_id ="+i+"");
        
             while (resultSet.next()) {
                s = new Sucursal(resultSet.getInt("sucursal_id"),
@@ -149,7 +149,7 @@ public Sucursal getSucursalByNombre(String nom){
         
         try {
         resultSet = statement.executeQuery(
-            "select * from sucursal where nombre = \"" + nom +"\"Order by sucursal_id");
+            "select * from sucursal where nombre = \"" + nom +"\"");
         } catch(Exception e) {
         	e.printStackTrace();
         }
