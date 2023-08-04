@@ -1,14 +1,10 @@
 package Interfaces;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Window.Type;
 import java.util.ArrayList;
-import java.util.function.Function;
 import java.awt.GridBagLayout;
 import javax.swing.JScrollPane;
 import java.awt.GridBagConstraints;
@@ -17,8 +13,6 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-
 import App.FramePrincipal;
 import Gestores.GestorProducto;
 import POJO.Producto;
@@ -29,10 +23,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JToggleButton;
 import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JInternalFrame;
 
 public class FrameProducto extends JFrame {
 
@@ -52,26 +43,7 @@ public class FrameProducto extends JFrame {
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
 	
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameProducto frame = new FrameProducto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	
 	public FrameProducto() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);

@@ -22,7 +22,7 @@ public static GestorProducto gestorProducto;
 		}
 		return gestorProducto;
 	}
-	public Producto getProductoById(int i) throws Exception{
+	public Producto getProductoById(int i){
 		Producto p = null;
         try {
             // below two lines are used for connectivity.
@@ -214,14 +214,14 @@ public ArrayList<Producto> getProducto(Integer id, String nom) throws Exception{
         statement = connection.createStatement();
         
         String idQuery= "Producto_id = " + id;
-        String nombreQuery = "nombre = \"" + nom+"\"";
+        String nombreQuery = "nombre LIKE  \"" + nom+"%\"";
         
-        String queryFinal = "select * from Producto where ";
+        String queryFinal = "select * from Producto ";
         
         boolean checkid = false;
         
-        if(id != null) {queryFinal += idQuery; checkid = true;}
-        if(!nom.equals("")) {if(checkid) queryFinal = queryFinal + " AND " + nombreQuery; else queryFinal += nombreQuery;}
+        if(id != null) {queryFinal += " where "+idQuery; checkid = true;}
+        if(!nom.equals("")) {if(checkid) queryFinal = queryFinal + " AND " + nombreQuery; else queryFinal += " where "+nombreQuery;}
         
         queryFinal += ";";
         

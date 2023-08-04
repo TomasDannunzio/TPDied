@@ -38,6 +38,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingConstants;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class FrameStock extends JFrame {
 
 	private JPanel contentPane;
@@ -84,7 +86,7 @@ public class FrameStock extends JFrame {
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				CrearOrden crearOrden = new CrearOrden(id,nombreSucursal);
+				CrearOrden crearOrden = new CrearOrden(id,nombreSucursal, new HashMap<Producto,Integer>());
 
 				FrameStock.this.setVisible(false);
 				
@@ -182,9 +184,12 @@ public class FrameStock extends JFrame {
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				if(table.getSelectedRow()!=-1) {
+				
 				FrameStock.this.setVisible(false);
 				
-				EditarStock editarStock= new EditarStock((int)table.getModel().getValueAt(table.getSelectedRow(),3),(int)table.getModel().getValueAt(table.getSelectedRow(),0), (String) table.getModel().getValueAt(table.getSelectedRow(),1), id ,nombreSucursal);
+				EditarStock editarStock= new EditarStock((int)table.getModel().getValueAt(table.getSelectedRow(),3),(int)table.getModel().getValueAt(table.getSelectedRow(),0), 
+						(String) table.getModel().getValueAt(table.getSelectedRow(),1), id ,nombreSucursal);
 				
 				try {
 					editarStock.setVisible(true);
@@ -194,6 +199,7 @@ public class FrameStock extends JFrame {
 				
 				FrameStock.this.dispose();
 				
+				} else showMessageDialog(null,"Por favor seleccione una fila.");
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -217,4 +223,7 @@ public class FrameStock extends JFrame {
 		
 	}
 
+	
+	public JTable getTable() {return table;}
+	
 }

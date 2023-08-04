@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -32,26 +33,16 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class AgregarProductoOrden extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField_3;
 
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CrearProducto frame = new CrearProducto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public AgregarProductoOrden(CrearOrden  Pantalla, int id_producto ,int id_orden) {
+	//public AgregarProductoOrden(CrearOrden  Pantalla, String nombreProducto ,int id_producto ,int id_orden) {
+	public AgregarProductoOrden(CrearOrden  pantalla, String nombreProducto ,int id_producto, HashMap<Producto,Integer> listaProductoOrden, int cantidadMax) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 357);
 		contentPane = new JPanel();
@@ -108,6 +99,13 @@ public class AgregarProductoOrden extends JFrame {
 		gbc_lblNewLabel_1_1.gridy = 1;
 		panel.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
 		
+		JLabel lblNewLabel_2 = new JLabel(nombreProducto);
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 1;
+		gbc_lblNewLabel_2.gridy = 2;
+		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
 		textField_3 = new JTextField();
 		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textField_3.setColumns(10);
@@ -121,10 +119,15 @@ public class AgregarProductoOrden extends JFrame {
 		JButton btnNewButton = new JButton("Agregar\r\n");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestorSucursal gestor = GestorSucursal.getInstance();
-				gestor.addProductToOrder(id_producto, id_orden, Integer.parseInt(textField_3.getText()) );
-				Pantalla.actualizarTabla();
+				GestorProducto gestorProducto = GestorProducto.getInstance();
+				Integer cantidadPedida = Integer.parseInt(textField_3.getText());
+				if(cantidadPedida>cantidadMax) {
+					showMessageDialog(null, "La cantidad pedida es mayor al stock presente en la sucursal");
+				}else {
+				listaProductoOrden.put(gestorProducto.getProductoById(id_producto), cantidadPedida);
+				pantalla.actualizarTabla(listaProductoOrden);
 				AgregarProductoOrden.this.dispose();
+				}
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));

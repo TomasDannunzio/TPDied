@@ -206,7 +206,8 @@ public ArrayList<Sucursal> getSucursal(Integer id, String nom, String horarioApe
 	        else queryFinal += horarioCierreQuery; sum++;}
 	        if(sum>0) queryFinal = queryFinal + " AND " + operativaQuery; else queryFinal += operativaQuery;
 	        
-	        queryFinal += "order by sucursal_id;";
+	        queryFinal += " order by sucursal_id ASC;";
+	        
 	        
 	        ResultSet resultSet = statement.executeQuery(queryFinal);
 	        
@@ -381,7 +382,6 @@ public void addProductToOrder(int id, int orden, int cantidad) {
 		PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO productosOrden Values(?, ?, ?)");
 		preparedStatement.setInt(1, orden);
 		preparedStatement.setInt(2, id);
-		
 		preparedStatement.setInt(3, cantidad);
 		preparedStatement.executeUpdate();
 	    preparedStatement.close();
@@ -398,6 +398,8 @@ public void deleteProductFromOrder(int id, int orden) {
 		Connection connection = ConexionBDD.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("Delete from ProductosOrden where producto_id = "+id+" AND orden_id="+orden);
 		preparedStatement.executeUpdate();
+		
+		System.out.println(preparedStatement);
 		
         preparedStatement.close();
         connection.close();

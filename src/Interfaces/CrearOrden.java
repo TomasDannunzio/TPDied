@@ -70,10 +70,15 @@ public class CrearOrden extends JFrame {
 	private JButton btnNewButton_3;
 	private JScrollPane scrollPane_1;
 	private JLabel lblNewLabel_4;
+	
+	private HashMap<Producto,Integer> listaStock ;
+	private HashMap<Producto,Integer> listaProductoOrden;
 
 	
-	public CrearOrden(int id, String nombre) {
+	public CrearOrden(int id, String nombre, HashMap<Producto,Integer> listaProdOrden) {
 
+		HashMap<Producto,Integer> listaProductoOrden = listaProdOrden;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
 		contentPane = new JPanel();
@@ -191,7 +196,7 @@ public class CrearOrden extends JFrame {
 		
 		
 		
-		lblNewLabel_4 = new JLabel("Productos en orden");
+		lblNewLabel_4 = new JLabel("Productos de la orden");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.WEST;
@@ -204,9 +209,9 @@ public class CrearOrden extends JFrame {
 		btnNewButton_2 = new JButton("Eliminar");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestorSucursal gestor =GestorSucursal.getInstance();
-				gestor.deleteProductFromOrder((int)table.getModel().getValueAt(table.getSelectedRow(),0), Integer.parseInt(textField.getText()));
-				CrearOrden.this.actualizarTabla();
+				Producto prod = listaProductoOrden.keySet().stream().filter(p -> p.getId() == (int) table2.getModel().getValueAt(table2.getSelectedRow(),0)).collect(Collectors.toList()).get(0);
+				listaProductoOrden.remove(prod);
+				CrearOrden.this.actualizarTabla(listaProductoOrden);
 				CrearOrden.this.repaint();
 			}
 		});
@@ -225,14 +230,41 @@ public class CrearOrden extends JFrame {
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 6;
-		contentPane.add(scrollPane, gbc_scrollPane); //copiar acá
+		contentPane.add(scrollPane, gbc_scrollPane); 
 		
 		btnNewButton_1 = new JButton("Crear");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				try {
+				
+				GestorSucursal gestor = GestorSucursal.getInstance();
+				int idSucursalPedir = Integer.parseInt(textField.getText());
+
+				gestor.createOrden(idSucursalPedir, LocalDate.parse(textField_1.getText()), comboBox.getSelectedItem().toString(), LocalTime.parse(textField_3.getText()));
+				
+				for(Producto p : listaProductoOrden.keySet()){
+					
+					gestor.addProductToOrder(p.getId(), idSucursalPedir, listaProductoOrden.get(p));
+					
+				}
+				
+				FrameStock frameStock = new FrameStock(id,nombre);
+				
+				frameStock.setVisible(true);
+				
+				CrearOrden.this.setVisible(false);
+				
+				frameStock.setVisible(true);
+				
+				} catch(Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				
 			}
-			
+				
 		});
 		
 		scrollPane_1 = new JScrollPane();
@@ -288,25 +320,24 @@ public class CrearOrden extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GestorSucursal gestor = GestorSucursal.getInstance();
-				
-
+//				
+//
 				int idSucursalPedir = Integer.parseInt(textField.getText());
-				gestor.createOrden(idSucursalPedir, LocalDate.parse(textField_1.getText()), comboBox.getSelectedItem().toString(), LocalTime.parse(textField_3.getText()));
+//				
+//				gestor.createOrden(idSucursalPedir, LocalDate.parse(textField_1.getText()), comboBox.getSelectedItem().toString(), LocalTime.parse(textField_3.getText()));
 				try {
 					
 					String[] columnNames = { "ID", "Producto", "Precio", "Cantidad"};
 					
-					HashMap<Producto, Integer> listaProductos = new HashMap<Producto, Integer>();
-					
 					try {
-						listaProductos = GestorSucursal.getInstance().getStock(id);
+						listaStock = gestor.getStock(id);
 					} catch (Exception e1) {
 					
 						e1.printStackTrace();
 					}
 
 					DefaultTableModel model = new DefaultTableModel(null, columnNames);
-					cargarModelo(model,listaProductos);
+					cargarModelo(model,listaStock);
 					table = new JTable(model);
 					table.setBackground(new Color(255, 255, 255));
 					table.setForeground(new Color(0, 0, 0));
@@ -333,12 +364,12 @@ public class CrearOrden extends JFrame {
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				AgregarProductoOrden agregarProducto= new AgregarProductoOrden(CrearOrden.this, (int)table.getModel().getValueAt(table.getSelectedRow(),0), Integer.parseInt(textField.getText()));
+				DefaultTableModel modelProducto = (DefaultTableModel) table.getModel();
+				
+				AgregarProductoOrden agregarProducto= new AgregarProductoOrden(CrearOrden.this,(String) modelProducto.getValueAt(table.getSelectedRow(), 1), 
+						(int) modelProducto.getValueAt(table.getSelectedRow(),0),listaProductoOrden, (int)  modelProducto.getValueAt(table.getSelectedRow(),3));
+				
 				agregarProducto.setVisible(true);
-				
-				
-			
-			//	CrearOrden.this.dispose();
 				
 			}
 		});
@@ -356,18 +387,11 @@ public class CrearOrden extends JFrame {
 		
 	}
 	
-	public void actualizarTabla(){
+	public void actualizarTabla(HashMap<Producto, Integer> listaProductos){
 		String[] columnNames = { "ID", "Producto", "Precio", "Cantidad"};
 		
-		HashMap<Producto, Integer> listaProductos = new HashMap<Producto, Integer>();
+		listaProductoOrden = listaProductos;
 		
-		try {
-			listaProductos = GestorSucursal.getInstance().getProductosOrden(Integer.parseInt(textField.getText()));
-		} catch (Exception e1) {
-		
-			e1.printStackTrace();
-		}
-
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 		cargarModelo(model,listaProductos);
 		table2 = new JTable(model);
@@ -379,6 +403,7 @@ public class CrearOrden extends JFrame {
 		table2.setToolTipText("");
 		scrollPane_1.setViewportView(table2);
 	}
+	
 	
 }
 	
